@@ -5,9 +5,11 @@
  */
 package Servidor;
 
+import Clientes.ClientInter;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 /**
@@ -16,16 +18,16 @@ import java.util.Scanner;
  */
 public class ServerInterImpl extends UnicastRemoteObject implements ServerInter{
     
-    private ArrayList<String> usuarios;
+    private HashMap<String,ClientInter> usuarios;
     
     public ServerInterImpl() throws RemoteException{
         
-        this.usuarios = new ArrayList();
+        this.usuarios = new HashMap();
         
     }
 
     @Override
-    public ArrayList<String> registro(String user, String pwd) throws RemoteException {
+    public HashMap<String,ClientInter> registro(String user, String pwd,ClientInter clt) throws RemoteException {
         
         Scanner sc = new Scanner("users.csv");
         String a=null;
@@ -33,7 +35,10 @@ public class ServerInterImpl extends UnicastRemoteObject implements ServerInter{
         while(sc.hasNext()){
             a = sc.nextLine();
             System.out.println(a);
-            if(a.split(",")[0].equals(user) && a.split(",")[1].equals(pwd)) return usuarios;
+            if(a.split(",")[0].equals(user) && a.split(",")[1].equals(pwd)){
+                usuarios.put(user, clt);
+                return usuarios;
+            }
         } 
         
         return null;

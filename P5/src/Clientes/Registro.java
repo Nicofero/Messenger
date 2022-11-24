@@ -9,6 +9,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,6 +21,7 @@ public class Registro extends javax.swing.JDialog {
 
     private Servidor.ServerInter h;
     private Cliente cliente;
+    private ClientInter callback;
     /**
      * Creates new form Prueba
      * @param parent
@@ -27,13 +29,19 @@ public class Registro extends javax.swing.JDialog {
      * @param h
      * @param c
      */
-    public Registro(java.awt.Frame parent, boolean modal, Servidor.ServerInter h,Cliente c) {
+    public Registro(java.awt.Frame parent, boolean modal, Servidor.ServerInter h,Cliente c,ClientInter clt) {
         super(parent, modal);
         initComponents();
         this.h = h;
         this.cliente = c;
         error.setVisible(false);
         this.setTitle("Registro");
+        this.callback = clt;
+        this.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                c.dispose();
+            }
+        });
     }
 
     /**
@@ -121,11 +129,11 @@ public class Registro extends javax.swing.JDialog {
     }//GEN-LAST:event_jTextField2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        ArrayList<String> a;
+        HashMap a;
         try {
             System.out.println(jTextField1.getText());
             System.out.println(jTextField2.getText());
-            a=h.registro(jTextField1.getText(),jTextField2.getText());
+            a=h.registro(jTextField1.getText(),jTextField2.getText(),callback);
             
             if (a!=null){
                 cliente.setAmigos(a);
