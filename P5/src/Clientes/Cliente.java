@@ -25,7 +25,7 @@ public class Cliente extends javax.swing.JFrame {
         initComponents();
 
         try {
-            String registryURL = "rmi://localhost:1099/bolsa";
+            String registryURL = "rmi://localhost:1099/messenger";
             ServerInter h = (ServerInter) Naming.lookup(registryURL);
             ClientInter callbackObj = new ClientInterImpl();
             this.amigos = new ArrayList();
