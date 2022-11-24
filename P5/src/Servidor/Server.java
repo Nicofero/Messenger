@@ -34,7 +34,7 @@ public class Server {
 
             startRegistry(1099);
 
-            String registryURL = "rmi://localhost:1099/bolsa";
+            String registryURL = "rmi://localhost:1099/messenger";
             Naming.rebind(registryURL, inter);
 
             System.out.println("El servidor esta funcionando");
