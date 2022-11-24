@@ -5,9 +5,10 @@
  */
 package Servidor;
 
+import Clientes.ClientInter;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  *
@@ -15,5 +16,5 @@ import java.util.ArrayList;
  */
 public interface ServerInter extends Remote{
     
-    public ArrayList<String> registro(String user,String pwd) throws RemoteException;
+    public HashMap<String,ClientInter> registro(String user,String pwd,ClientInter clt) throws RemoteException;
 }
