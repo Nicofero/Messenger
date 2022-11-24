@@ -114,7 +114,11 @@ public class Prueba extends javax.swing.JDialog {
             a = h.registro(jTextField1.getText(),jTextField2.getText());
             
         } catch (RemoteException ex) {
-            Logger.getLogger(Prueba.class.getName()).log(Level.SEVERE, null, ex);
+            java.awt.EventQueue.invokeLater(new Runnable() {
+                public void run() {
+                    javax.swing.JOptionPane.showMessageDialog(null, ex,"ERROR", javax.swing.JOptionPane.ERROR_MESSAGE);
+                }
+            });
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
