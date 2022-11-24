@@ -31,6 +31,8 @@ public class ServerInterImpl extends UnicastRemoteObject implements ServerInter{
         
         Scanner sc = new Scanner("users.csv");
         String a=null;
+        clt.recibirMensaje("hola", "pedro");
+        clt.recibirMensaje("te quiero muchisimo beibi", "juan");
         
         while(sc.hasNext()){
             a = sc.nextLine();

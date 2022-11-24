@@ -14,15 +14,15 @@ import java.rmi.server.UnicastRemoteObject;
  */
 public class ClientInterImpl extends UnicastRemoteObject implements ClientInter{
 
-    public ClientInterImpl() throws RemoteException {
-        
-    }
+    private Cliente cl;
     
-    
+    public ClientInterImpl(Cliente cl) throws RemoteException {
+        this.cl=cl;
+    }   
 
     @Override
-    public void recibirMensaje() throws RemoteException {
-        
+    public void recibirMensaje(String mensaje,String tipo) throws RemoteException {
+        cl.recibirMensaje(mensaje,tipo);
     }
 
     @Override

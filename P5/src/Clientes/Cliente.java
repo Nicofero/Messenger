@@ -7,9 +7,11 @@ package Clientes;
 
 import java.rmi.Naming;
 import Servidor.ServerInter;
+import java.awt.LayoutManager;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.HashMap;
+import javax.swing.JPanel;
 
 /**
  *
@@ -29,10 +31,11 @@ public class Cliente extends javax.swing.JFrame {
         try {
             String registryURL = "rmi://localhost:1099/messenger";
             this.h = (ServerInter) Naming.lookup(registryURL);
-            this.callbackObj = (ClientInter) new ClientInterImpl();
+            this.callbackObj = (ClientInter) new ClientInterImpl(this);
             this.amigos = new HashMap();
         } catch (Exception e) {
             System.out.println("Error: "+e);
+            System.exit(1);
         }
 
         this.addWindowListener(new WindowAdapter() {
@@ -55,7 +58,7 @@ public class Cliente extends javax.swing.JFrame {
     private void initComponents() {
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
-        jTabbedPane2 = new javax.swing.JTabbedPane();
+        chat = new javax.swing.JTabbedPane();
         jTabbedPane4 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
@@ -63,7 +66,7 @@ public class Cliente extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTabbedPane1.addTab("Chats", jTabbedPane2);
+        jTabbedPane1.addTab("Chats", chat);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -159,11 +162,17 @@ public class Cliente extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTabbedPane chat;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTabbedPane jTabbedPane4;
     // End of variables declaration//GEN-END:variables
+
+    void recibirMensaje(String mensaje,String user) {
+        Prueba a = new Prueba();
+        a.setText(mensaje,user);
+        chat.addTab(user, a);
+    }
 }

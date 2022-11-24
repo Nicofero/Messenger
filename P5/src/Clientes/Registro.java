@@ -130,19 +130,21 @@ public class Registro extends javax.swing.JDialog {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         HashMap a;
+        error.setVisible(false);
         try {
             System.out.println(jTextField1.getText());
             System.out.println(jTextField2.getText());
             a=h.registro(jTextField1.getText(),jTextField2.getText(),callback);
             
-            if (a!=null){
-                cliente.setAmigos(a);
-                cliente.setName(jTextField1.getText());
-                this.dispose();
-            }else{
-                error.setVisible(true);
-            }
-            
+            //HAY QUE DESCOMENTAR CUANDO ESTE LA CONEXION COOL
+//            if (a!=null){
+//                cliente.setAmigos(a);
+//                cliente.setName(jTextField1.getText());
+//                this.dispose();
+//            }else{
+//                error.setVisible(true);
+//            }
+            this.dispose();
             
         } catch (Exception ex) {
             java.awt.EventQueue.invokeLater(new Runnable() {
