@@ -31,7 +31,9 @@ public class ServerInterImpl extends UnicastRemoteObject implements ServerInter{
         String a=null;
         
         while(sc.hasNext()){
-            if(sc.nextLine().split(",")[0].equals(user) && sc.nextLine().split(",")[1].equals(pwd)) return usuarios;
+            a = sc.nextLine();
+            System.out.println(a);
+            if(a.split(",")[0].equals(user) && a.split(",")[1].equals(pwd)) return usuarios;
         } 
         
         return null;

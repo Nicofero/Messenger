@@ -5,6 +5,8 @@
  */
 package Clientes;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -14,19 +16,24 @@ import java.util.logging.Logger;
  *
  * @author Nicolás Fernández
  */
-public class Prueba extends javax.swing.JDialog {
+public class Registro extends javax.swing.JDialog {
 
     private Servidor.ServerInter h;
+    private Cliente cliente;
     /**
      * Creates new form Prueba
      * @param parent
      * @param modal
      * @param h
+     * @param c
      */
-    public Prueba(java.awt.Frame parent, boolean modal, Servidor.ServerInter h) {
+    public Registro(java.awt.Frame parent, boolean modal, Servidor.ServerInter h,Cliente c) {
         super(parent, modal);
         initComponents();
         this.h = h;
+        this.cliente = c;
+        error.setVisible(false);
+        this.setTitle("Registro");
     }
 
     /**
@@ -43,6 +50,7 @@ public class Prueba extends javax.swing.JDialog {
         jTextField1 = new javax.swing.JTextField();
         jTextField2 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        error = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -63,26 +71,28 @@ public class Prueba extends javax.swing.JDialog {
             }
         });
 
+        error.setForeground(new java.awt.Color(255, 51, 51));
+        error.setText("ERROR EN EL REGISTRO");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(14, 14, 14)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(54, 54, 54)
-                                .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField1))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1)))
+                        .addComponent(error)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(54, 54, 54)
+                        .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jTextField1)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -97,7 +107,9 @@ public class Prueba extends javax.swing.JDialog {
                     .addComponent(jLabel1)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(error))
                 .addContainerGap())
         );
 
@@ -111,9 +123,20 @@ public class Prueba extends javax.swing.JDialog {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         ArrayList<String> a;
         try {
-            a = h.registro(jTextField1.getText(),jTextField2.getText());
+            System.out.println(jTextField1.getText());
+            System.out.println(jTextField2.getText());
+            a=h.registro(jTextField1.getText(),jTextField2.getText());
             
-        } catch (RemoteException ex) {
+            if (a!=null){
+                cliente.setAmigos(a);
+                cliente.setName(jTextField1.getText());
+                this.dispose();
+            }else{
+                error.setVisible(true);
+            }
+            
+            
+        } catch (Exception ex) {
             java.awt.EventQueue.invokeLater(new Runnable() {
                 public void run() {
                     javax.swing.JOptionPane.showMessageDialog(null, ex,"ERROR", javax.swing.JOptionPane.ERROR_MESSAGE);
@@ -124,6 +147,7 @@ public class Prueba extends javax.swing.JDialog {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel error;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
