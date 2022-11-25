@@ -13,7 +13,7 @@ public class FachadaBaseDatos {
 
     private java.sql.Connection conexion;
     private DAOUsuarios daoUsuarios;
-    private static final String nombreArchivo = "baseDatos.properties";
+    private static final String nombreArchivo = "P5/baseDatos.properties";
 
     public static FachadaBaseDatos getInstance() {
         if (_instance == null) {
@@ -23,7 +23,7 @@ public class FachadaBaseDatos {
     }
 
 
-    public void conectar() {
+    private FachadaBaseDatos() {
         /*
          * Intenta conectarse a la base de datos
          */
@@ -48,7 +48,7 @@ public class FachadaBaseDatos {
             System.out.println("Conexión con la base de datos \"" + configuracion.getProperty("baseDatos")
                     + "\" realizada con éxito!");
         } catch (FileNotFoundException f) {
-            System.err.println("Archivo de configuración" + nombreArchivo + " no encontrado:");
+            System.err.println("Archivo de configuración " + nombreArchivo + " no encontrado:");
             System.err.println(f.getMessage());
         } catch (IOException i) {
             System.err.println("Error al leer el archivo:");

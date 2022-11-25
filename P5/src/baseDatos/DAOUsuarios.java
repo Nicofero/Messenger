@@ -21,7 +21,7 @@ public class DAOUsuarios extends AbstractDAO {
         con = this.getConexion();
 
         try {
-            stmUsuario = con.prepareStatement("select nombre_usuario"
+            stmUsuario = con.prepareStatement("select nombre_usuario "
                     + "from usuario "
                     + "where nombre_usuario = ? and clave = crypt(?, clave)");
             stmUsuario.setString(1, nombreUsuario);
@@ -94,7 +94,7 @@ public class DAOUsuarios extends AbstractDAO {
         try {
             stmUsuario = con.prepareStatement("select nombre_amigo"
                     + "from amistad "+
-                    "where nombre_usuario = ?");
+                    "where nombre_usuario = ? and solicitudaceptada = TRUE");
             stmUsuario.setString(1, nombre);
             rsUsuario = stmUsuario.executeQuery();
 
@@ -174,5 +174,39 @@ public class DAOUsuarios extends AbstractDAO {
                 System.out.println("Imposible cerrar cursores");
             }
         }
+    }
+
+    public List<String> obtenerSolicitudes(String nombre){
+        ArrayList<String> solicitudes = new ArrayList<>();
+        Connection con;
+        PreparedStatement stmUsuario = null;
+        ResultSet rsUsuario;
+
+        con = this.getConexion();
+
+        try {
+            stmUsuario = con.prepareStatement("select nombre_amigo"
+                    + "from amistad "+
+                    "where nombre_usuario = ? and solicitudaceptada = FALSE");
+            stmUsuario.setString(1, nombre);
+            rsUsuario = stmUsuario.executeQuery();
+
+            while (rsUsuario.next()) {
+                solicitudes.add(rsUsuario.getString("nombre_usuario"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (stmUsuario != null) {
+                    stmUsuario.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Imposible cerrar cursores");
+            }
+        }
+
+        return solicitudes;
     }
 }

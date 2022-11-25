@@ -17,4 +17,5 @@ import java.util.HashMap;
 public interface ServerInter extends Remote{
     
     public HashMap<String,ClientInter> registro(String user,String pwd,ClientInter clt) throws RemoteException;
+    public HashMap<String,ClientInter> desconexion(String user) throws RemoteException;
 }
