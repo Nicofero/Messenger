@@ -94,8 +94,13 @@ public class DAOUsuarios extends AbstractDAO {
         try {
             stmUsuario = con.prepareStatement("select nombre_amigo "
                     + "from amistad "+
-                    "where nombre_usuario = ? and solicitudaceptada = TRUE");
+                    "where nombre_usuario = ? and solicitudaceptada = TRUE "+
+                    "union "+
+                    "select nombre_usuario "
+                    + "from amistad "+
+                    "where nombre_amigo = ? and solicitudaceptada = TRUE ");
             stmUsuario.setString(1, nombre);
+            stmUsuario.setString(2, nombre);
             rsUsuario = stmUsuario.executeQuery();
 
             while (rsUsuario.next()) {

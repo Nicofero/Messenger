@@ -10,12 +10,10 @@ import Servidor.ServerInter;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -46,25 +44,6 @@ public class Cliente extends javax.swing.JFrame {
             System.exit(1);
         }
         
-        try {
-            for(String amigo : h.obtenerAmigos(nombre)){
-                anhadirFilaAmigos(amigo);
-            }
-            
-            for(String amigo : h.obtenerSolicitudesEnviadas(nombre)){
-                anhadirFilaEnviadas(amigo);
-            }
-            
-            for(String amigo : h.obtenerSolicitudesRecibidas(nombre)){
-                anhadirFilaRecibidas(amigo);
-            }
-            
-        } catch (RemoteException ex) {
-            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        
-
         this.addWindowListener(new WindowAdapter() {
             public void windowClosed(WindowEvent e) {
                 System.exit(0);
@@ -563,5 +542,31 @@ public class Cliente extends javax.swing.JFrame {
 
     void eliminarChat(String user) {
         chat.remove(chat.indexOfTab(user));
+    }
+    
+    public void iniciarTablas(){
+        try {
+            ArrayList<String> temp = (ArrayList) h.obtenerAmigos(nombre);
+            System.out.println(temp);
+            for(String amigo : temp){
+                System.out.println(amigo);
+                anhadirFilaAmigos(amigo);
+            }
+            
+            temp = (ArrayList) h.obtenerSolicitudesEnviadas(nombre);
+            
+            for(String amigo : temp){
+                anhadirFilaEnviadas(amigo);
+            }
+            
+            temp = (ArrayList) h.obtenerSolicitudesRecibidas(nombre);
+            
+            for(String amigo : temp){
+                anhadirFilaRecibidas(amigo);
+            }
+            
+        } catch (RemoteException ex) {
+            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
