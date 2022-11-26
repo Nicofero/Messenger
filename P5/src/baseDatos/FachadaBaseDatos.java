@@ -78,5 +78,18 @@ public class FachadaBaseDatos {
     public void aceptarSolicitud(String usuario, String amigo){
         daoUsuarios.aceptarSolicitud(usuario,amigo);
     }
+    
+    public List<String> obtenerSolicitudesEnviadas(String user){
+        return daoUsuarios.obtenerSolicitudesEnviadas(user);
+    }
+    
+    public List<String> obtenerSolicitudesRecibidas(String user){
+        return daoUsuarios.obtenerSolicitudesRecibidas(user);
+    }
+    
+    public void borrarSolicitud(String usuario, String amigo){
+        daoUsuarios.borrarSolicitud(usuario, amigo);
+    }
+    
 
 }

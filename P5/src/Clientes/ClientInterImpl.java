@@ -42,4 +42,31 @@ public class ClientInterImpl extends UnicastRemoteObject implements ClientInter{
         cl.eliminarChat(user);
     }
     
+    @Override
+    public void nuevaSolicitud(String solicitante) throws RemoteException{
+        cl.anhadirFilaRecibidas(solicitante);
+    }
+
+    @Override
+    public void solicitudAceptada(String user) throws RemoteException {
+        cl.anhadirFilaAmigos(user);
+        cl.eliminarFilaEnviadas(user);
+    }
+
+    @Override
+    public void rechazarSolicitud(String user) throws RemoteException {
+        cl.eliminarFilaEnviadas(user);
+    }
+
+    @Override
+    public void borrarSolicitudEnviada(String user) throws RemoteException {
+        cl.eliminarFilaRecibidas(user);
+    }
+    
+    
+    
+    
+    
+    
+    
 }

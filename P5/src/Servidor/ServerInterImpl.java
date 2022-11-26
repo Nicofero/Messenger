@@ -12,6 +12,7 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -66,12 +67,49 @@ public class ServerInterImpl extends UnicastRemoteObject implements ServerInter{
     @Override
     public void solicitarAmistad(String user, String amigo) throws RemoteException {
         FachadaBaseDatos.getInstance().anhadirSolicitudAmistad(user, amigo);
+        if(usuarios.containsKey(amigo)){
+            usuarios.get(amigo).nuevaSolicitud(user);
+        }
         
     }
 
     @Override
     public void aceptarSolicitud(String user, String amigo) throws RemoteException {
         FachadaBaseDatos.getInstance().aceptarSolicitud(user, amigo);
+        if(usuarios.containsKey(amigo)){
+            usuarios.get(amigo).solicitudAceptada(user);
+        }
+    }
+    
+    @Override
+    public void borrarSolicitudEnviada(String user, String amigo) throws RemoteException {
+        FachadaBaseDatos.getInstance().borrarSolicitud(user, amigo);
+        if(usuarios.containsKey(amigo)){
+            usuarios.get(amigo).borrarSolicitudEnviada(user);
+        }
+    }
+    
+    @Override
+    public void rechazarSolicitud(String user, String amigo) throws RemoteException{
+        FachadaBaseDatos.getInstance().borrarSolicitud(user, amigo);
+        if(usuarios.containsKey(user)){
+            usuarios.get(user).rechazarSolicitud(amigo);
+        }
+    }
+    
+    @Override
+    public List<String> obtenerAmigos(String user) throws RemoteException{
+        return FachadaBaseDatos.getInstance().obtenerAmigos(user);
+    }
+    
+    @Override
+    public List<String> obtenerSolicitudesEnviadas(String user) throws RemoteException{
+        return FachadaBaseDatos.getInstance().obtenerSolicitudesEnviadas(user);
+    }
+    
+    @Override
+    public List<String> obtenerSolicitudesRecibidas(String user) throws RemoteException{
+        return FachadaBaseDatos.getInstance().obtenerSolicitudesRecibidas(user);
     }
     
     

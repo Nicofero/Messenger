@@ -155,13 +155,14 @@ public class DAOUsuarios extends AbstractDAO {
         con = this.getConexion();
 
         try {
-            con.setAutoCommit(false);
-
-            consulta = "Insert into amistad(nombre_usuario, nombre_amigo, solicitudaceptada) values (?,?, FALSE)";
+            consulta = "insert into amistad(nombre_usuario, nombre_amigo, solicitudaceptada) values (?,?,?)";
             stmIns = con.prepareStatement(consulta);
             stmIns.setString(1, usuario);
             stmIns.setString(2, amigo);
+            stmIns.setBoolean(3, false);
             stmIns.executeUpdate();
+            
+            
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -176,7 +177,7 @@ public class DAOUsuarios extends AbstractDAO {
         }
     }
 
-    public List<String> obtenerSolicitudes(String nombre){
+    public List<String> obtenerSolicitudesEnviadas(String nombre){
         ArrayList<String> solicitudes = new ArrayList<>();
         Connection con;
         PreparedStatement stmUsuario = null;
@@ -188,6 +189,40 @@ public class DAOUsuarios extends AbstractDAO {
             stmUsuario = con.prepareStatement("select nombre_amigo "
                     + "from amistad "+
                     "where nombre_usuario = ? and solicitudaceptada = FALSE");
+            stmUsuario.setString(1, nombre);
+            rsUsuario = stmUsuario.executeQuery();
+
+            while (rsUsuario.next()) {
+                solicitudes.add(rsUsuario.getString("nombre_amigo"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (stmUsuario != null) {
+                    stmUsuario.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Imposible cerrar cursores");
+            }
+        }
+
+        return solicitudes;
+    }
+    
+    public List<String> obtenerSolicitudesRecibidas(String nombre){
+        ArrayList<String> solicitudes = new ArrayList<>();
+        Connection con;
+        PreparedStatement stmUsuario = null;
+        ResultSet rsUsuario;
+
+        con = this.getConexion();
+
+        try {
+            stmUsuario = con.prepareStatement("select nombre_usuario "
+                    + "from amistad "+
+                    "where nombre_amigo = ? and solicitudaceptada = FALSE");
             stmUsuario.setString(1, nombre);
             rsUsuario = stmUsuario.executeQuery();
 
@@ -208,5 +243,33 @@ public class DAOUsuarios extends AbstractDAO {
         }
 
         return solicitudes;
+    }
+    
+    public void borrarSolicitud(String usuario, String amigo){
+        PreparedStatement stm = null;
+        ResultSet rst;
+        Connection con;
+
+        con = this.getConexion();
+
+        String consulta = "delete from amistad "
+                + " where nombre_usuario = ? and nombre_amigo = ? and solicitudaceptada = FALSE";
+        try {
+            stm = con.prepareStatement(consulta);
+            stm.setString(1, usuario);
+            stm.setString(2, amigo);
+            stm.executeUpdate();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                if (stm != null) {
+                    stm.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println("Imposible cerrar cursores");
+            }
+        }
     }
 }

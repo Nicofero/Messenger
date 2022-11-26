@@ -9,6 +9,7 @@ import Clientes.ClientInter;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  *
@@ -20,6 +21,10 @@ public interface ServerInter extends Remote{
     public void desconexion(String user) throws RemoteException;
     public void solicitarAmistad(String user, String amigo) throws RemoteException;
     public void aceptarSolicitud(String user, String amigo) throws RemoteException;
-    
-    
+    public void rechazarSolicitud(String user, String amigo) throws RemoteException;
+    public void borrarSolicitudEnviada(String user, String amigo) throws RemoteException;
+    public List<String> obtenerAmigos(String user) throws RemoteException;
+    public List<String> obtenerSolicitudesRecibidas(String user) throws RemoteException;
+    public List<String> obtenerSolicitudesEnviadas(String user) throws RemoteException;
+        
 }

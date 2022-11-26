@@ -16,6 +16,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -43,6 +45,25 @@ public class Cliente extends javax.swing.JFrame {
             System.out.println("Error: " + e);
             System.exit(1);
         }
+        
+        try {
+            for(String amigo : h.obtenerAmigos(nombre)){
+                anhadirFilaAmigos(amigo);
+            }
+            
+            for(String amigo : h.obtenerSolicitudesEnviadas(nombre)){
+                anhadirFilaEnviadas(amigo);
+            }
+            
+            for(String amigo : h.obtenerSolicitudesRecibidas(nombre)){
+                anhadirFilaRecibidas(amigo);
+            }
+            
+        } catch (RemoteException ex) {
+            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
 
         this.addWindowListener(new WindowAdapter() {
             public void windowClosed(WindowEvent e) {
@@ -88,10 +109,16 @@ public class Cliente extends javax.swing.JFrame {
         nombreSolicitudText = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        solicitudesTabla = new javax.swing.JTable();
+        rechazarBoton = new javax.swing.JButton();
+        aceptarBoton = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        amigosTabla = new javax.swing.JTable();
+        jPanel4 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        enviadasTabla = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -145,31 +172,42 @@ public class Cliente extends javax.swing.JFrame {
                 .addComponent(nombreSolicitudText, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(40, 40, 40)
                 .addComponent(solicitarAmistadBoton)
-                .addContainerGap(112, Short.MAX_VALUE))
+                .addContainerGap(156, Short.MAX_VALUE))
         );
 
         jTabbedPane4.addTab("Solicitar", jPanel1);
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        solicitudesTabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+
             },
             new String [] {
-                "Nombre de usuario", "Aceptar", "Rechazar"
+                "Nombre de usuario"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(solicitudesTabla);
+
+        rechazarBoton.setText("Rechazar solicitud");
+        rechazarBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rechazarBotonActionPerformed(evt);
+            }
+        });
+
+        aceptarBoton.setText("Aceptar solicitud");
+        aceptarBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                aceptarBotonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -177,39 +215,45 @@ public class Cliente extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(43, 43, 43)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 519, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(aceptarBoton)
+                        .addGap(27, 27, 27)
+                        .addComponent(rechazarBoton))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 519, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(48, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(24, 24, 24)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(40, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(rechazarBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(aceptarBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
 
         jTabbedPane4.addTab("Solicitudes", jPanel2);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        amigosTabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+
             },
             new String [] {
-                "Nombre de usuario", "Iniciar chat"
+                "Nombre de usuario"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false
+                false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(amigosTabla);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -225,10 +269,50 @@ public class Cliente extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(24, 24, 24)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(40, Short.MAX_VALUE))
+                .addContainerGap(84, Short.MAX_VALUE))
         );
 
         jTabbedPane4.addTab("Amigos", jPanel3);
+
+        enviadasTabla.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Nombre de usuario"
+            }
+        ));
+        jScrollPane3.setViewportView(enviadasTabla);
+
+        jButton1.setText("Retitar solicitud");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(48, 48, 48)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButton1)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 515, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(47, Short.MAX_VALUE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(49, Short.MAX_VALUE))
+        );
+
+        jTabbedPane4.addTab("Solicitudes enviadas", jPanel4);
 
         jTabbedPane1.addTab("Amigos", jTabbedPane4);
 
@@ -257,7 +341,9 @@ public class Cliente extends javax.swing.JFrame {
     private void solicitarAmistadBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_solicitarAmistadBotonActionPerformed
 
         try {
-            h.solicitarAmistad(nombre, nombreSolicitudText.getText());
+            h.solicitarAmistad(nombre, solicitudBuscador.getText());
+            anhadirFila(solicitudBuscador.getText(), enviadasTabla);
+            
             java.awt.EventQueue.invokeLater(new Runnable() {
                 @Override
                 public void run() {
@@ -269,11 +355,68 @@ public class Cliente extends javax.swing.JFrame {
             java.awt.EventQueue.invokeLater(new Runnable() {
                 @Override
                 public void run() {
-                    javax.swing.JOptionPane.showMessageDialog(null, ex, "ERROR", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                    javax.swing.JOptionPane.showMessageDialog(null, ex, "ERROR", javax.swing.JOptionPane.ERROR_MESSAGE);
                 }
             });
         }
     }//GEN-LAST:event_solicitarAmistadBotonActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        DefaultTableModel tm = (DefaultTableModel) enviadasTabla.getModel();
+        int fila = enviadasTabla.getSelectedRow();
+        String dato=String.valueOf(tm.getValueAt(fila,0));
+        try {
+            h.borrarSolicitudEnviada(nombre, dato);
+            tm.removeRow(fila);
+            solicitudesTabla.setModel(tm);
+            
+        } catch (RemoteException ex) {
+            java.awt.EventQueue.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    javax.swing.JOptionPane.showMessageDialog(null, ex, "ERROR", javax.swing.JOptionPane.ERROR_MESSAGE);
+                }
+            });
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void aceptarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aceptarBotonActionPerformed
+        DefaultTableModel tm = (DefaultTableModel) solicitudesTabla.getModel();
+        int fila = solicitudesTabla.getSelectedRow();
+        String dato=String.valueOf(tm.getValueAt(fila,0));
+        try {
+            h.aceptarSolicitud(dato, nombre);
+            tm.removeRow(fila);
+            solicitudesTabla.setModel(tm);
+            anhadirFilaAmigos(dato);
+            
+        } catch (RemoteException ex) {
+            java.awt.EventQueue.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    javax.swing.JOptionPane.showMessageDialog(null, ex, "ERROR", javax.swing.JOptionPane.ERROR_MESSAGE);
+                }
+            });
+        }
+    }//GEN-LAST:event_aceptarBotonActionPerformed
+
+    private void rechazarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rechazarBotonActionPerformed
+        DefaultTableModel tm = (DefaultTableModel) solicitudesTabla.getModel();
+        int fila = solicitudesTabla.getSelectedRow();
+        String dato=String.valueOf(tm.getValueAt(fila,0));
+        try {
+            h.rechazarSolicitud(dato, nombre);
+            tm.removeRow(fila);
+            solicitudesTabla.setModel(tm);
+        } catch (RemoteException ex) {
+            java.awt.EventQueue.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    javax.swing.JOptionPane.showMessageDialog(null, ex, "ERROR", javax.swing.JOptionPane.ERROR_MESSAGE);
+                }
+            });
+        }
+    }//GEN-LAST:event_rechazarBotonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -323,20 +466,26 @@ public class Cliente extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton aceptarBoton;
+    private javax.swing.JTable amigosTabla;
     private javax.swing.JButton buscar;
     private javax.swing.JTabbedPane chat;
+    private javax.swing.JTable enviadasTabla;
+    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane4;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
     private javax.swing.JLabel nombreSolicitudText;
+    private javax.swing.JButton rechazarBoton;
     private javax.swing.JButton solicitarAmistadBoton;
     private javax.swing.JTextField solicitudBuscador;
+    private javax.swing.JTable solicitudesTabla;
     // End of variables declaration//GEN-END:variables
 
     void recibirMensaje(String mensaje, String user) {
@@ -349,21 +498,56 @@ public class Cliente extends javax.swing.JFrame {
         this.nombre = nombre;
     }
 
-//    private void actualizarTabla(){
-//        JButton aceptar = new JButton("Aceptar");
-//        JButton rechazar = new JButton("Aceptar");
-//        Object[] fila = new Object[3];
-//
-//        fila[0] = (Object) nombre;
-//        fila[1] = (Object) new JButton("Aceptar");
-//        fila[2] = (Object) new JButton("Rechazar");
-//
-//
-//        DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
-//        modelo.addRow(fila);
-//
-//        jTable1.setModel(modelo);
-//    }
+    public void eliminarFilaEnviadas(String nombre){
+        DefaultTableModel modelo = (DefaultTableModel) enviadasTabla.getModel();
+        for(int i = 0; i<modelo.getRowCount();i++){
+            if(modelo.getValueAt(i, 0).equals(nombre)){
+                modelo.removeRow(i);
+                break;
+            }
+        }
+        
+
+        enviadasTabla.setModel(modelo);
+    }
+    
+    public void eliminarFilaRecibidas(String nombre){
+        DefaultTableModel modelo = (DefaultTableModel) solicitudesTabla.getModel();
+        for(int i = 0; i<modelo.getRowCount();i++){
+            if(modelo.getValueAt(i, 0).equals(nombre)){
+                modelo.removeRow(i);
+                break;
+            }
+        }
+        
+
+        solicitudesTabla.setModel(modelo);
+    }
+    
+    public void anhadirFilaAmigos(String nombre){
+        anhadirFila(nombre, amigosTabla);
+    }
+    
+    public void anhadirFilaRecibidas(String nombre){
+        anhadirFila(nombre, solicitudesTabla);
+    }
+    
+    public void anhadirFilaEnviadas(String nombre){
+        anhadirFila(nombre, enviadasTabla);
+    }
+    
+    private void anhadirFila(String nombre, JTable tabla){
+        Object[] fila = new Object[1];
+
+        fila[0] = (Object) nombre;
+
+        DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+        modelo.addRow(fila);
+
+        tabla.setModel(modelo);
+    }
+    
+    
     public int abrirChat(String user, ClientInter clt) {
         int cnt = chat.getTabCount();
         for (int i = 0; i < cnt; i++) {
