@@ -153,9 +153,9 @@ public class Cliente extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                Cliente c = new Cliente();
-                c.setVisible(true);
+                Cliente c = new Cliente();                
                 new Registro(c,true,h,c,callbackObj).setVisible(true);
+                c.setVisible(true);
             }
         });
 

@@ -13,7 +13,7 @@ public class FachadaBaseDatos {
 
     private java.sql.Connection conexion;
     private DAOUsuarios daoUsuarios;
-    private static final String nombreArchivo = "P5/baseDatos.properties";
+    private static final String nombreArchivo = "baseDatos.properties";
 
     public static FachadaBaseDatos getInstance() {
         if (_instance == null) {
