@@ -26,12 +26,9 @@ public class ClientInterImpl extends UnicastRemoteObject implements ClientInter{
     }
 
     @Override
-    public void notifica(String mensaje) throws RemoteException {
-        java.awt.EventQueue.invokeLater(new Runnable(){
-            public void run(){
-                javax.swing.JOptionPane.showMessageDialog(null, mensaje,"Acceso", javax.swing.JOptionPane.DEFAULT_OPTION);
-            }
-        });
+    public void notifica(String user) throws RemoteException {
+        
+        cl.recibirMensaje(user, null);
     }
     
 }

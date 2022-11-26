@@ -9,12 +9,12 @@ package Clientes;
  *
  * @author Nicolás Fernández
  */
-public class Prueba extends javax.swing.JPanel {
+public class Chat extends javax.swing.JPanel {
 
     /**
      * Creates new form Prueba
      */
-    public Prueba() {
+    public Chat() {
         initComponents();
     }
     

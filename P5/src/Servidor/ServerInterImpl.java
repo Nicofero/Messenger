@@ -30,9 +30,6 @@ public class ServerInterImpl extends UnicastRemoteObject implements ServerInter{
 
     @Override
     public HashMap<String,ClientInter> registro(String user, String pwd,ClientInter clt) throws RemoteException {
-
-        clt.recibirMensaje("hola", "pedro");
-        clt.recibirMensaje("te quiero muchisimo beibi", "juan");
         
         if(FachadaBaseDatos.getInstance().iniciarSesion(user, pwd)){
             usuarios.put(user, clt);
@@ -44,6 +41,7 @@ public class ServerInterImpl extends UnicastRemoteObject implements ServerInter{
             for(String amigo: amigos){
                 if(usuarios.containsKey(amigo)){
                     amigosConectados.put(amigo, usuarios.get(amigo));
+                    usuarios.get(amigo).notifica(user);
                 }
             }
             return amigosConectados;

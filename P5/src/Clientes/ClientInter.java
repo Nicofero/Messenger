@@ -14,5 +14,5 @@ import java.rmi.RemoteException;
  */
 public interface ClientInter extends Remote{
      public void recibirMensaje(String mensaje,String user) throws RemoteException;
-     public void notifica(String mensaje) throws RemoteException;
+     public void notifica(String user) throws RemoteException;
 }

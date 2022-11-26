@@ -315,7 +315,7 @@ public class Cliente extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     void recibirMensaje(String mensaje, String user) {
-        Prueba a = new Prueba();
+        Chat a = new Chat();
         a.setText(mensaje, user);
         chat.addTab(user, a);
     }
