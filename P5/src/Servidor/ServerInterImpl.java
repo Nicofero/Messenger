@@ -33,8 +33,8 @@ public class ServerInterImpl extends UnicastRemoteObject implements ServerInter{
 
         //Scanner sc = new Scanner("users.csv");
         String a=null;
-        //clt.recibirMensaje("hola", "pedro");
-        //clt.recibirMensaje("te quiero muchisimo beibi", "juan");
+        clt.recibirMensaje("hola", "pedro");
+        clt.recibirMensaje("te quiero muchisimo beibi", "juan");
         
         /*while(sc.hasNext()){
             a = sc.nextLine();
@@ -53,12 +53,25 @@ public class ServerInterImpl extends UnicastRemoteObject implements ServerInter{
 
         return null;
     }
-
+    
     @Override
     public HashMap<String,ClientInter> desconexion(String user) throws RemoteException{
         usuarios.remove(user);
         return usuarios;
     }
+
+    @Override
+    public void solicitarAmistad(String user, String amigo) throws RemoteException {
+        FachadaBaseDatos.getInstance().anhadirSolicitudAmistad(user, amigo);
+        
+    }
+
+    @Override
+    public void aceptarSolicitud(String user, String amigo) throws RemoteException {
+        FachadaBaseDatos.getInstance().aceptarSolicitud(user, amigo);
+    }
+    
+    
 
 }
 
