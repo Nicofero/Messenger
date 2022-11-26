@@ -31,28 +31,27 @@ public class ServerInterImpl extends UnicastRemoteObject implements ServerInter{
     @Override
     public HashMap<String,ClientInter> registro(String user, String pwd,ClientInter clt) throws RemoteException {
 
-        //Scanner sc = new Scanner("users.csv");
-        String a=null;
         clt.recibirMensaje("hola", "pedro");
         clt.recibirMensaje("te quiero muchisimo beibi", "juan");
         
-        /*while(sc.hasNext()){
-            a = sc.nextLine();
-            System.out.println(a);
-            if(a.split(",")[0].equals(user) && a.split(",")[1].equals(pwd)){
-                usuarios.put(user, clt);
-                return usuarios;
-            }
-        }*/
-
         if(FachadaBaseDatos.getInstance().iniciarSesion(user, pwd)){
             usuarios.put(user, clt);
             System.out.println("Inicio correcto");
-            return usuarios;
+            HashMap<String, ClientInter> amigosConectados = new HashMap<>();
+            
+            //Ver que usuarios conectados son amigos del usuario
+            ArrayList<String> amigos = (ArrayList) FachadaBaseDatos.getInstance().obtenerAmigos(user);
+            for(String amigo: amigos){
+                if(usuarios.containsKey(amigo)){
+                    amigosConectados.put(amigo, usuarios.get(amigo));
+                }
+            }
+            return amigosConectados;
         }
 
         return null;
     }
+    
     
     @Override
     public HashMap<String,ClientInter> desconexion(String user) throws RemoteException{

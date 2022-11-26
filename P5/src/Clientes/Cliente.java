@@ -7,11 +7,13 @@ package Clientes;
 
 import java.rmi.Naming;
 import Servidor.ServerInter;
-import java.awt.LayoutManager;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.rmi.RemoteException;
 import java.util.HashMap;
-import javax.swing.JPanel;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JButton;
 
 /**
  *
@@ -20,8 +22,10 @@ import javax.swing.JPanel;
 public class Cliente extends javax.swing.JFrame {
 
     private HashMap amigos;
+    private String nombre;
     private static ServerInter h;
     private static ClientInter callbackObj;
+
     /**
      * Creates new form Cliente
      */
@@ -34,7 +38,7 @@ public class Cliente extends javax.swing.JFrame {
             this.callbackObj = (ClientInter) new ClientInterImpl(this);
             this.amigos = new HashMap();
         } catch (Exception e) {
-            System.out.println("Error: "+e);
+            System.out.println("Error: " + e);
             System.exit(1);
         }
 
@@ -44,10 +48,11 @@ public class Cliente extends javax.swing.JFrame {
             }
         });
     }
-    
-    public void setAmigos(HashMap amigos){
+
+    public void setAmigos(HashMap amigos) {
         this.amigos = amigos;
     }
+
     /*
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -61,48 +66,150 @@ public class Cliente extends javax.swing.JFrame {
         chat = new javax.swing.JTabbedPane();
         jTabbedPane4 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
+        buscar = new javax.swing.JButton();
+        solicitudBuscador = new javax.swing.JTextField();
+        solicitarAmistadBoton = new javax.swing.JButton();
+        nombreSolicitudText = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jTabbedPane1.addTab("Chats", chat);
 
+        buscar.setText("Buscar");
+        buscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buscarActionPerformed(evt);
+            }
+        });
+
+        solicitudBuscador.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                solicitudBuscadorActionPerformed(evt);
+            }
+        });
+
+        solicitarAmistadBoton.setText("Solicitar amistad");
+        solicitarAmistadBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                solicitarAmistadBotonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 557, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(55, 55, 55)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(nombreSolicitudText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(solicitarAmistadBoton))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(solicitudBuscador, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(buscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(77, 77, 77))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 313, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(50, 50, 50)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(solicitudBuscador, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(79, 79, 79)
+                .addComponent(nombreSolicitudText, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(40, 40, 40)
+                .addComponent(solicitarAmistadBoton)
+                .addContainerGap(112, Short.MAX_VALUE))
         );
 
         jTabbedPane4.addTab("Solicitar", jPanel1);
+
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Nombre de usuario", "Aceptar", "Rechazar"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(jTable2);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 557, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(43, 43, 43)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 519, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(48, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 313, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(40, Short.MAX_VALUE))
         );
 
         jTabbedPane4.addTab("Solicitudes", jPanel2);
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "Nombre de usuario", "Iniciar chat"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 557, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(43, 43, 43)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 519, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(48, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 313, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(40, Short.MAX_VALUE))
         );
 
         jTabbedPane4.addTab("Amigos", jPanel3);
@@ -122,6 +229,35 @@ public class Cliente extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_buscarActionPerformed
+
+    private void solicitudBuscadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_solicitudBuscadorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_solicitudBuscadorActionPerformed
+
+    private void solicitarAmistadBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_solicitarAmistadBotonActionPerformed
+
+        try {
+            h.solicitarAmistad(nombre, nombreSolicitudText.getText());
+            java.awt.EventQueue.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    String mensaje = "La solicitud se ha enviado con exito. A la espera de confirmación por el usuario";
+                    javax.swing.JOptionPane.showMessageDialog(null, mensaje, "INFORMACIÓN", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                }
+            });
+        } catch (RemoteException ex) {
+            java.awt.EventQueue.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    javax.swing.JOptionPane.showMessageDialog(null, ex, "ERROR", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                }
+            });
+        } 
+    }//GEN-LAST:event_solicitarAmistadBotonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -153,8 +289,8 @@ public class Cliente extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                Cliente c = new Cliente();                
-                new Registro(c,true,h,c,callbackObj).setVisible(true);
+                Cliente c = new Cliente();
+                new Registro(c, true, h, c, callbackObj).setVisible(true);
                 c.setVisible(true);
             }
         });
@@ -162,17 +298,45 @@ public class Cliente extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton buscar;
     private javax.swing.JTabbedPane chat;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane4;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
+    private javax.swing.JLabel nombreSolicitudText;
+    private javax.swing.JButton solicitarAmistadBoton;
+    private javax.swing.JTextField solicitudBuscador;
     // End of variables declaration//GEN-END:variables
 
-    void recibirMensaje(String mensaje,String user) {
+    void recibirMensaje(String mensaje, String user) {
         Prueba a = new Prueba();
-        a.setText(mensaje,user);
+        a.setText(mensaje, user);
         chat.addTab(user, a);
     }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+    
+//    private void actualizarTabla(){
+//        JButton aceptar = new JButton("Aceptar");
+//        JButton rechazar = new JButton("Aceptar");
+//        Object[] fila = new Object[3];
+//
+//        fila[0] = (Object) nombre;
+//        fila[1] = (Object) new JButton("Aceptar");
+//        fila[2] = (Object) new JButton("Rechazar");
+//
+//
+//        DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
+//        modelo.addRow(fila);
+//
+//        jTable1.setModel(modelo);
+//    }
 }

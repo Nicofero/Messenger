@@ -124,14 +124,14 @@ public class Registro extends javax.swing.JDialog {
         error.setVisible(false);
         try {
             a=h.registro(jTextField1.getText(),Arrays.toString(pwd.getPassword()),callback);
-            
-            //HAY QUE DESCOMENTAR CUANDO ESTE LA CONEXION COOL
-//            if (a!=null){
-//                cliente.setAmigos(a);
-//                this.dispose();
-//            }else{
-//                error.setVisible(true);
-//            }
+
+            if (a!=null){
+                cliente.setAmigos(a);
+                cliente.setNombre(jTextField1.getText());
+                this.dispose();
+            }else{
+                error.setVisible(true);
+            }
             this.dispose();
             
         } catch (Exception ex) {
