@@ -28,8 +28,11 @@ Insert into usuario (nombre_usuario, clave) values ('Nico', crypt('1234', gen_sa
 Insert into usuario (nombre_usuario, clave) values ('Elena', crypt('4321', gen_salt('bf', 4)),TRUE);
 Insert into usuario (nombre_usuario, clave) values ('Ivan', crypt('5555', gen_salt('bf', 4)),TRUE);
 
-Insert into amistad(nombre_usuario, nombre_amigo, solicitudaceptada) values ('Ines','Tato', TRUE)
-Insert into amistad(nombre_usuario, nombre_amigo, solicitudaceptada) values ('Ines','Nico', FALSE)
-Insert into amistad(nombre_usuario, nombre_amigo, solicitudaceptada) values ('Ines','Ivan', TRUE)
-Insert into amistad(nombre_usuario, nombre_amigo, solicitudaceptada) values ('Ivan','Elena', TRUE)
-Insert into amistad(nombre_usaurio, nombre_amigo, solicitudaceptada) values ('Nico','Elena', TRUE)
+Insert into amistad(nombre_usuario, nombre_amigo, solicitudaceptada) values ('Ines','Tato', TRUE);
+Insert into amistad(nombre_usuario, nombre_amigo, solicitudaceptada) values ('Ines','Nico', TRUE);
+Insert into amistad(nombre_usuario, nombre_amigo, solicitudaceptada) values ('Ines','Ivan', TRUE);
+Insert into amistad(nombre_usuario, nombre_amigo, solicitudaceptada) values ('Ivan','Elena', TRUE);
+Insert into amistad(nombre_usuario, nombre_amigo, solicitudaceptada) values ('Nico','Elena', TRUE);
+Insert into amistad(nombre_usuario, nombre_amigo, solicitudaceptada) values ('Elena','Nico', TRUE);
+Insert into amistad(nombre_usuario, nombre_amigo, solicitudaceptada) values ('Nico','Ivan', TRUE);
+Insert into amistad(nombre_usuario, nombre_amigo, solicitudaceptada) values ('Ivan','Nico', TRUE);

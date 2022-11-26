@@ -11,8 +11,10 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.rmi.RemoteException;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 /**
@@ -21,8 +23,8 @@ import javax.swing.JButton;
  */
 public class Cliente extends javax.swing.JFrame {
 
-    private HashMap amigos;
-    private String nombre;
+    private static HashMap<String, ClientInter> amigos;
+    private static String nombre;
     private static ServerInter h;
     private static ClientInter callbackObj;
 
@@ -45,6 +47,20 @@ public class Cliente extends javax.swing.JFrame {
         this.addWindowListener(new WindowAdapter() {
             public void windowClosed(WindowEvent e) {
                 System.exit(0);
+            }
+        });
+        this.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                try {
+                    h.desconexion(nombre);
+                } catch (RemoteException ex) {
+                    java.awt.EventQueue.invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            javax.swing.JOptionPane.showMessageDialog(null, ex, "ERROR", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                        }
+                    });
+                }
             }
         });
     }
@@ -256,7 +272,7 @@ public class Cliente extends javax.swing.JFrame {
                     javax.swing.JOptionPane.showMessageDialog(null, ex, "ERROR", javax.swing.JOptionPane.INFORMATION_MESSAGE);
                 }
             });
-        } 
+        }
     }//GEN-LAST:event_solicitarAmistadBotonActionPerformed
 
     /**
@@ -291,7 +307,16 @@ public class Cliente extends javax.swing.JFrame {
             public void run() {
                 Cliente c = new Cliente();
                 new Registro(c, true, h, c, callbackObj).setVisible(true);
+                c.setTitle(nombre);
+
+                //No me gusta como esta esto
+                for (String amigo : amigos.keySet()) {
+                    c.abrirChat(amigo, amigos.get(amigo));
+                }
+
                 c.setVisible(true);
+
+                //c.abrirChat("nico",callbackObj);
             }
         });
 
@@ -315,15 +340,15 @@ public class Cliente extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     void recibirMensaje(String mensaje, String user) {
-        Chat a = new Chat();
+
+        Chat a = (Chat) chat.getComponentAt(chat.indexOfTab(user));
         a.setText(mensaje, user);
-        chat.addTab(user, a);
     }
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-    
+
 //    private void actualizarTabla(){
 //        JButton aceptar = new JButton("Aceptar");
 //        JButton rechazar = new JButton("Aceptar");
@@ -339,4 +364,20 @@ public class Cliente extends javax.swing.JFrame {
 //
 //        jTable1.setModel(modelo);
 //    }
+    public int abrirChat(String user, ClientInter clt) {
+        int cnt = chat.getTabCount();
+        for (int i = 0; i < cnt; i++) {
+
+            if (chat.getTitleAt(i).equals(user)) {
+                return i;
+            }
+        }
+        Chat a = new Chat(clt, nombre);
+        chat.addTab(user, a);
+        return cnt;
+    }
+
+    void eliminarChat(String user) {
+        chat.remove(chat.indexOfTab(user));
+    }
 }

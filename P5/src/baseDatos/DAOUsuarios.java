@@ -27,8 +27,8 @@ public class DAOUsuarios extends AbstractDAO {
             stmUsuario.setString(1, nombreUsuario);
             stmUsuario.setString(2, clave);
             rsUsuario = stmUsuario.executeQuery();
-
-            while (rsUsuario.next()) {
+            
+            if (rsUsuario.next()) {
                 sesionIniciada = true;
             }
 
@@ -60,7 +60,7 @@ public class DAOUsuarios extends AbstractDAO {
         con = this.getConexion();
 
         try {
-            stmUsuario = con.prepareStatement("select nombre_usuario"
+            stmUsuario = con.prepareStatement("select nombre_usuario "
                     + "from usuario ");
             rsUsuario = stmUsuario.executeQuery();
 
@@ -92,14 +92,14 @@ public class DAOUsuarios extends AbstractDAO {
         con = this.getConexion();
 
         try {
-            stmUsuario = con.prepareStatement("select nombre_amigo"
+            stmUsuario = con.prepareStatement("select nombre_amigo "
                     + "from amistad "+
                     "where nombre_usuario = ? and solicitudaceptada = TRUE");
             stmUsuario.setString(1, nombre);
             rsUsuario = stmUsuario.executeQuery();
 
             while (rsUsuario.next()) {
-                amigos.add(rsUsuario.getString("nombre_usuario"));
+                amigos.add(rsUsuario.getString("nombre_amigo"));
             }
 
         } catch (SQLException e) {
@@ -185,7 +185,7 @@ public class DAOUsuarios extends AbstractDAO {
         con = this.getConexion();
 
         try {
-            stmUsuario = con.prepareStatement("select nombre_amigo"
+            stmUsuario = con.prepareStatement("select nombre_amigo "
                     + "from amistad "+
                     "where nombre_usuario = ? and solicitudaceptada = FALSE");
             stmUsuario.setString(1, nombre);

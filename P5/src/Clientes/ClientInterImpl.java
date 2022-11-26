@@ -7,6 +7,7 @@ package Clientes;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.HashMap;
 
 /**
  *
@@ -15,9 +16,11 @@ import java.rmi.server.UnicastRemoteObject;
 public class ClientInterImpl extends UnicastRemoteObject implements ClientInter{
 
     private Cliente cl;
+    private HashMap <String,ClientInter> amigos;
     
     public ClientInterImpl(Cliente cl) throws RemoteException {
         this.cl=cl;
+        amigos = new HashMap<>();
     }   
 
     @Override
@@ -26,9 +29,17 @@ public class ClientInterImpl extends UnicastRemoteObject implements ClientInter{
     }
 
     @Override
-    public void notifica(String user) throws RemoteException {
+    public void notifica(String user,ClientInter clt) throws RemoteException {
         
-        cl.recibirMensaje(user, null);
+        amigos.put(user, clt);
+        cl.abrirChat(user,clt);
+    }
+
+    @Override
+    public void desconexion(String user) throws RemoteException {
+        
+        amigos.remove(user);
+        cl.eliminarChat(user);
     }
     
 }

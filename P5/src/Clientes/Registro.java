@@ -123,8 +123,7 @@ public class Registro extends javax.swing.JDialog {
         HashMap a;
         error.setVisible(false);
         try {
-            a=h.registro(jTextField1.getText(),Arrays.toString(pwd.getPassword()),callback);
-
+            a=h.registro(jTextField1.getText(),new String(pwd.getPassword()),callback);
             if (a!=null){
                 cliente.setAmigos(a);
                 cliente.setNombre(jTextField1.getText());
@@ -132,7 +131,6 @@ public class Registro extends javax.swing.JDialog {
             }else{
                 error.setVisible(true);
             }
-            this.dispose();
             
         } catch (Exception ex) {
             java.awt.EventQueue.invokeLater(new Runnable() {

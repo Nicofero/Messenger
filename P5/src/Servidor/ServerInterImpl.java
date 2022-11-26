@@ -41,7 +41,7 @@ public class ServerInterImpl extends UnicastRemoteObject implements ServerInter{
             for(String amigo: amigos){
                 if(usuarios.containsKey(amigo)){
                     amigosConectados.put(amigo, usuarios.get(amigo));
-                    usuarios.get(amigo).notifica(user);
+                    usuarios.get(amigo).notifica(user,clt);
                 }
             }
             return amigosConectados;
@@ -52,9 +52,15 @@ public class ServerInterImpl extends UnicastRemoteObject implements ServerInter{
     
     
     @Override
-    public HashMap<String,ClientInter> desconexion(String user) throws RemoteException{
+    public void desconexion(String user) throws RemoteException{
         usuarios.remove(user);
-        return usuarios;
+        
+        ArrayList<String> amigos = (ArrayList) FachadaBaseDatos.getInstance().obtenerAmigos(user);
+            for(String amigo: amigos){
+                if(usuarios.containsKey(amigo)){
+                    usuarios.get(amigo).desconexion(user);
+                }
+            }
     }
 
     @Override

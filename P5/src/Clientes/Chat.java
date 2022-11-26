@@ -5,21 +5,31 @@
  */
 package Clientes;
 
+import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Nicolás Fernández
  */
 public class Chat extends javax.swing.JPanel {
 
+    private final ClientInter clt;
+    private final String user;
     /**
      * Creates new form Prueba
+     * @param clt
+     * @param user
      */
-    public Chat() {
+    public Chat(ClientInter clt,String user) {
         initComponents();
+        this.clt = clt;
+        this.user = user;
     }
     
     public void setText(String mensaje,String user){
-        jTextArea1.setText(user+" dice:\n   "+mensaje+"\n\n");
+        jTextArea1.setText(jTextArea1.getText()+user+" dice:\n   "+mensaje+"\n\n");
     }
 
     /**
@@ -42,6 +52,11 @@ public class Chat extends javax.swing.JPanel {
         jScrollPane1.setViewportView(jTextArea1);
 
         jButton1.setText("ENVIAR");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -69,6 +84,20 @@ public class Chat extends javax.swing.JPanel {
                 .addContainerGap(7, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        try {
+            this.setText(jTextField1.getText(),user);
+            clt.recibirMensaje(jTextField1.getText(), user);
+            jTextField1.setText(null);
+        } catch (RemoteException ex) {
+            java.awt.EventQueue.invokeLater(new Runnable() {
+                public void run() {
+                    javax.swing.JOptionPane.showMessageDialog(null, ex,"ERROR", javax.swing.JOptionPane.ERROR_MESSAGE);
+                }
+            });
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
