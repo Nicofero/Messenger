@@ -27,6 +27,7 @@ public class Cliente extends javax.swing.JFrame {
     private static String nombre;
     private static ServerInter h;
     private static ClientInter callbackObj;
+    private static String clave;
 
     /**
      * Creates new form Cliente
@@ -52,7 +53,7 @@ public class Cliente extends javax.swing.JFrame {
         this.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 try {
-                    h.desconexion(nombre);
+                    h.desconexion(nombre, clave);
                 } catch (RemoteException ex) {
                     java.awt.EventQueue.invokeLater(new Runnable() {
                         @Override
@@ -68,6 +69,12 @@ public class Cliente extends javax.swing.JFrame {
     public void setAmigos(HashMap amigos) {
         this.amigos = amigos;
     }
+
+    public static void setClave(String clave) {
+        Cliente.clave = clave;
+    }
+    
+    
 
     /*
      * This method is called from within the constructor to initialize the form.
@@ -304,7 +311,7 @@ public class Cliente extends javax.swing.JFrame {
     private void solicitarAmistadBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_solicitarAmistadBotonActionPerformed
 
         try {
-            if(!nombre.equals(solicitudBuscador.getText()) && h.solicitarAmistad(nombre, solicitudBuscador.getText())){
+            if(!nombre.equals(solicitudBuscador.getText()) && h.solicitarAmistad(nombre, solicitudBuscador.getText(), clave)){
                 anhadirFila(solicitudBuscador.getText(), enviadasTabla);
                 solicitudBuscador.setText("");
 
@@ -338,7 +345,7 @@ public class Cliente extends javax.swing.JFrame {
         int fila = enviadasTabla.getSelectedRow();
         String dato=String.valueOf(tm.getValueAt(fila,0));
         try {
-            h.borrarSolicitudEnviada(nombre, dato);
+            h.borrarSolicitudEnviada(nombre, dato, clave);
             tm.removeRow(fila);
             solicitudesTabla.setModel(tm);
             
@@ -357,7 +364,7 @@ public class Cliente extends javax.swing.JFrame {
         int fila = solicitudesTabla.getSelectedRow();
         String dato=String.valueOf(tm.getValueAt(fila,0));
         try {
-            h.aceptarSolicitud(dato, nombre);
+            h.aceptarSolicitud(dato, nombre, clave);
             tm.removeRow(fila);
             solicitudesTabla.setModel(tm);
             anhadirFilaAmigos(dato);
@@ -377,7 +384,7 @@ public class Cliente extends javax.swing.JFrame {
         int fila = solicitudesTabla.getSelectedRow();
         String dato=String.valueOf(tm.getValueAt(fila,0));
         try {
-            h.rechazarSolicitud(dato, nombre);
+            h.rechazarSolicitud(dato, nombre, clave);
             tm.removeRow(fila);
             solicitudesTabla.setModel(tm);
         } catch (RemoteException ex) {
@@ -538,20 +545,20 @@ public class Cliente extends javax.swing.JFrame {
     
     public void iniciarTablas(){
         try {
-            ArrayList<String> temp = (ArrayList) h.obtenerAmigos(nombre);
+            ArrayList<String> temp = (ArrayList) h.obtenerAmigos(nombre, clave);
             System.out.println(temp);
             for(String amigo : temp){
                 System.out.println(amigo);
                 anhadirFilaAmigos(amigo);
             }
             
-            temp = (ArrayList) h.obtenerSolicitudesEnviadas(nombre);
+            temp = (ArrayList) h.obtenerSolicitudesEnviadas(nombre, clave);
             
             for(String amigo : temp){
                 anhadirFilaEnviadas(amigo);
             }
             
-            temp = (ArrayList) h.obtenerSolicitudesRecibidas(nombre);
+            temp = (ArrayList) h.obtenerSolicitudesRecibidas(nombre, clave);
             
             for(String amigo : temp){
                 anhadirFilaRecibidas(amigo);

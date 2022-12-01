@@ -139,6 +139,7 @@ public class Registro extends javax.swing.JDialog {
             if (a!=null){
                 cliente.setAmigos(a);
                 cliente.setNombre(jTextField1.getText());
+                cliente.setClave(new String(pwd.getPassword()));
                 cliente.iniciarTablas();
                 this.dispose();
             }else{
