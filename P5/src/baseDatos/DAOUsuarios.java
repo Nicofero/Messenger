@@ -13,7 +13,6 @@ public class DAOUsuarios extends AbstractDAO {
     public boolean iniciarSesion(String nombreUsuario, String clave) {
         boolean sesionIniciada = false;
 
-
         Connection con;
         PreparedStatement stmUsuario = null;
         ResultSet rsUsuario;
@@ -27,13 +26,9 @@ public class DAOUsuarios extends AbstractDAO {
             stmUsuario.setString(1, nombreUsuario);
             stmUsuario.setString(2, clave);
             rsUsuario = stmUsuario.executeQuery();
-            
+
             if (rsUsuario.next()) {
                 sesionIniciada = true;
-            }
-
-            if (sesionIniciada == false) {
-                System.out.println("Error en el inicio de sesion");
             }
 
         } catch (SQLException e) {
@@ -83,7 +78,7 @@ public class DAOUsuarios extends AbstractDAO {
         return usuarios;
     }
 
-    public List<String> obtenerAmigos(String nombre){
+    public List<String> obtenerAmigos(String nombre) {
         ArrayList<String> amigos = new ArrayList<>();
         Connection con;
         PreparedStatement stmUsuario = null;
@@ -93,12 +88,12 @@ public class DAOUsuarios extends AbstractDAO {
 
         try {
             stmUsuario = con.prepareStatement("select nombre_amigo "
-                    + "from amistad "+
-                    "where nombre_usuario = ? and solicitudaceptada = TRUE "+
-                    "union "+
-                    "select nombre_usuario "
-                    + "from amistad "+
-                    "where nombre_amigo = ? and solicitudaceptada = TRUE ");
+                    + "from amistad "
+                    + "where nombre_usuario = ? and solicitudaceptada = TRUE "
+                    + "union "
+                    + "select nombre_usuario "
+                    + "from amistad "
+                    + "where nombre_amigo = ? and solicitudaceptada = TRUE ");
             stmUsuario.setString(1, nombre);
             stmUsuario.setString(2, nombre);
             rsUsuario = stmUsuario.executeQuery();
@@ -122,7 +117,7 @@ public class DAOUsuarios extends AbstractDAO {
         return amigos;
     }
 
-    public void aceptarSolicitud(String usuario, String amigo){
+    public void aceptarSolicitud(String usuario, String amigo) {
         PreparedStatement stm = null;
         ResultSet rst;
         Connection con;
@@ -151,7 +146,7 @@ public class DAOUsuarios extends AbstractDAO {
         }
     }
 
-    public void anhadirSolicitudAmistad(String usuario, String amigo){
+    public void anhadirSolicitudAmistad(String usuario, String amigo) {
         PreparedStatement stmCheck = null;
         PreparedStatement stmIns = null;
         Connection con;
@@ -166,8 +161,6 @@ public class DAOUsuarios extends AbstractDAO {
             stmIns.setString(2, amigo);
             stmIns.setBoolean(3, false);
             stmIns.executeUpdate();
-            
-            
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -182,7 +175,7 @@ public class DAOUsuarios extends AbstractDAO {
         }
     }
 
-    public List<String> obtenerSolicitudesEnviadas(String nombre){
+    public List<String> obtenerSolicitudesEnviadas(String nombre) {
         ArrayList<String> solicitudes = new ArrayList<>();
         Connection con;
         PreparedStatement stmUsuario = null;
@@ -192,8 +185,8 @@ public class DAOUsuarios extends AbstractDAO {
 
         try {
             stmUsuario = con.prepareStatement("select nombre_amigo "
-                    + "from amistad "+
-                    "where nombre_usuario = ? and solicitudaceptada = FALSE");
+                    + "from amistad "
+                    + "where nombre_usuario = ? and solicitudaceptada = FALSE");
             stmUsuario.setString(1, nombre);
             rsUsuario = stmUsuario.executeQuery();
 
@@ -215,8 +208,8 @@ public class DAOUsuarios extends AbstractDAO {
 
         return solicitudes;
     }
-    
-    public List<String> obtenerSolicitudesRecibidas(String nombre){
+
+    public List<String> obtenerSolicitudesRecibidas(String nombre) {
         ArrayList<String> solicitudes = new ArrayList<>();
         Connection con;
         PreparedStatement stmUsuario = null;
@@ -226,8 +219,8 @@ public class DAOUsuarios extends AbstractDAO {
 
         try {
             stmUsuario = con.prepareStatement("select nombre_usuario "
-                    + "from amistad "+
-                    "where nombre_amigo = ? and solicitudaceptada = FALSE");
+                    + "from amistad "
+                    + "where nombre_amigo = ? and solicitudaceptada = FALSE");
             stmUsuario.setString(1, nombre);
             rsUsuario = stmUsuario.executeQuery();
 
@@ -249,8 +242,8 @@ public class DAOUsuarios extends AbstractDAO {
 
         return solicitudes;
     }
-    
-    public void borrarSolicitud(String usuario, String amigo){
+
+    public void borrarSolicitud(String usuario, String amigo) {
         PreparedStatement stm = null;
         ResultSet rst;
         Connection con;
@@ -279,13 +272,13 @@ public class DAOUsuarios extends AbstractDAO {
     }
 
     public boolean crearUsuario(String user, String pwd) {
-        
+
         PreparedStatement stmCheck = null;
         PreparedStatement stmIns = null;
         Connection con;
         String consulta;
         boolean cosa = true;
-        
+
         con = this.getConexion();
 
         try {
@@ -297,7 +290,7 @@ public class DAOUsuarios extends AbstractDAO {
 
         } catch (Exception e) {
             //e.printStackTrace();
-            cosa=false;
+            cosa = false;
         } finally {
             try {
                 if (stmIns != null) {

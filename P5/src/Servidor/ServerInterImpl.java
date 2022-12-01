@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Servidor;
 
 import Clientes.ClientInter;
@@ -13,12 +8,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Scanner;
 
-/**
- *
- * @author Nicolás Fernández
- */
 public class ServerInterImpl extends UnicastRemoteObject implements ServerInter {
 
     private HashMap<String, ClientInter> usuarios;
@@ -140,6 +130,7 @@ public class ServerInterImpl extends UnicastRemoteObject implements ServerInter 
         return lista;
     }
     
+    @Override
     public List<String> obtenerSolicitudesRecibidas(String user, String clave) throws RemoteException {
         ArrayList<String> lista = null;
         if (FachadaBaseDatos.getInstance().iniciarSesion(user, clave)) {

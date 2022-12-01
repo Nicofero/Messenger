@@ -102,9 +102,6 @@
               </Layout>
               <SubComponents>
                 <Component class="javax.swing.JTextField" name="solicitudBuscador">
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="solicitudBuscadorActionPerformed"/>
-                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="solicitarAmistadBoton">
                   <Properties>

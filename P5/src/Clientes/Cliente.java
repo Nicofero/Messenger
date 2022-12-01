@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Clientes;
 
 import java.rmi.Naming;
@@ -17,10 +12,6 @@ import java.util.logging.Logger;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author Nicolás Fernández
- */
 public class Cliente extends javax.swing.JFrame {
 
     private static HashMap<String, ClientInter> amigos;
@@ -71,7 +62,6 @@ public class Cliente extends javax.swing.JFrame {
     }
 
     public void setClave(String clave) {
-        System.out.println(clave);
         this.clave = clave;
     }
     
@@ -109,12 +99,6 @@ public class Cliente extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jTabbedPane1.addTab("Chats", chat);
-
-        solicitudBuscador.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                solicitudBuscadorActionPerformed(evt);
-            }
-        });
 
         solicitarAmistadBoton.setText("Solicitar amistad");
         solicitarAmistadBoton.addActionListener(new java.awt.event.ActionListener() {
@@ -305,10 +289,6 @@ public class Cliente extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void solicitudBuscadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_solicitudBuscadorActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_solicitudBuscadorActionPerformed
-
     private void solicitarAmistadBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_solicitarAmistadBotonActionPerformed
 
         try {
@@ -432,14 +412,11 @@ public class Cliente extends javax.swing.JFrame {
                 new Registro(c, true, h, c, callbackObj).setVisible(true);
                 c.setTitle(nombre);
 
-                //No me gusta como esta esto
                 for (String amigo : amigos.keySet()) {
                     c.abrirChat(amigo, amigos.get(amigo));
                 }
 
                 c.setVisible(true);
-
-                //c.abrirChat("nico",callbackObj);
             }
         });
 
@@ -527,17 +504,16 @@ public class Cliente extends javax.swing.JFrame {
     }
     
     
-    public int abrirChat(String user, ClientInter clt) {
+    public void abrirChat(String user, ClientInter clt) {
         int cnt = chat.getTabCount();
         for (int i = 0; i < cnt; i++) {
 
             if (chat.getTitleAt(i).equals(user)) {
-                return i;
+                return;
             }
         }
         Chat a = new Chat(clt, nombre);
         chat.addTab(user, a);
-        return cnt;
     }
 
     void eliminarChat(String user) {
@@ -547,9 +523,7 @@ public class Cliente extends javax.swing.JFrame {
     public void iniciarTablas(){
         try {
             ArrayList<String> temp = (ArrayList) h.obtenerAmigos(nombre, clave);
-            System.out.println(temp);
             for(String amigo : temp){
-                System.out.println(amigo);
                 anhadirFilaAmigos(amigo);
             }
             

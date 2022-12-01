@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Properties;
 
-
 public class FachadaBaseDatos {
 
     private static FachadaBaseDatos _instance;
@@ -21,7 +20,6 @@ public class FachadaBaseDatos {
         }
         return _instance;
     }
-
 
     private FachadaBaseDatos() {
         /*
@@ -40,9 +38,9 @@ public class FachadaBaseDatos {
             usuario.setProperty("user", configuracion.getProperty("usuario"));
             usuario.setProperty("password", configuracion.getProperty("clave"));
             this.conexion = java.sql.DriverManager.getConnection("jdbc:" + gestor + "://"
-                            + configuracion.getProperty("servidor") + ":"
-                            + configuracion.getProperty("puerto") + "/"
-                            + configuracion.getProperty("baseDatos"),
+                    + configuracion.getProperty("servidor") + ":"
+                    + configuracion.getProperty("puerto") + "/"
+                    + configuracion.getProperty("baseDatos"),
                     usuario);
             daoUsuarios = new DAOUsuarios(conexion);
             System.out.println("Conexión con la base de datos \"" + configuracion.getProperty("baseDatos")
@@ -63,37 +61,36 @@ public class FachadaBaseDatos {
         return daoUsuarios.iniciarSesion(nombre, clave);
     }
 
-    public List<String> obtenerUsuarios(){
+    public List<String> obtenerUsuarios() {
         return daoUsuarios.obtenerUsuarios();
     }
 
-    public List<String> obtenerAmigos(String nombre){
+    public List<String> obtenerAmigos(String nombre) {
         return daoUsuarios.obtenerAmigos(nombre);
     }
 
-    public void anhadirSolicitudAmistad(String usuario, String amigo){
+    public void anhadirSolicitudAmistad(String usuario, String amigo) {
         daoUsuarios.anhadirSolicitudAmistad(usuario, amigo);
     }
 
-    public void aceptarSolicitud(String usuario, String amigo){
-        daoUsuarios.aceptarSolicitud(usuario,amigo);
+    public void aceptarSolicitud(String usuario, String amigo) {
+        daoUsuarios.aceptarSolicitud(usuario, amigo);
     }
-    
-    public List<String> obtenerSolicitudesEnviadas(String user){
+
+    public List<String> obtenerSolicitudesEnviadas(String user) {
         return daoUsuarios.obtenerSolicitudesEnviadas(user);
     }
-    
-    public List<String> obtenerSolicitudesRecibidas(String user){
+
+    public List<String> obtenerSolicitudesRecibidas(String user) {
         return daoUsuarios.obtenerSolicitudesRecibidas(user);
     }
-    
-    public void borrarSolicitud(String usuario, String amigo){
+
+    public void borrarSolicitud(String usuario, String amigo) {
         daoUsuarios.borrarSolicitud(usuario, amigo);
     }
 
     public boolean crearUsuario(String user, String pwd) {
-        return daoUsuarios.crearUsuario(user,pwd);
+        return daoUsuarios.crearUsuario(user, pwd);
     }
-    
 
 }

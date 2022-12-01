@@ -1,31 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Clientes;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JDialog;
 
-/**
- *
- * @author Nicolás Fernández
- */
 public class Registro extends javax.swing.JDialog {
 
     private Servidor.ServerInter h;
     private Cliente cliente;
     private ClientInter callback;
     /**
-     * Creates new form Prueba
+     * Creates new form Registro
      * @param parent
      * @param modal
      * @param h

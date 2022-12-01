@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Servidor;
 
 import java.io.BufferedReader;
@@ -12,15 +7,8 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
-/**
- *
- * @author Nicolás Fernández
- */
 public class Server {
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
 
         InputStreamReader not;
@@ -51,9 +39,8 @@ public class Server {
             registry.list();
         } catch (RemoteException ex) {
             //Si no existe lo creamos
-            Registry registry = LocateRegistry.createRegistry(i);
-            System.out.println(
-                    "Registro RMI creado en el puerto " + i);
+            LocateRegistry.createRegistry(i);
+            System.out.println("Registro RMI creado en el puerto " + i);
         }
     }
 
