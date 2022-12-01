@@ -65,12 +65,23 @@ public class ServerInterImpl extends UnicastRemoteObject implements ServerInter{
     }
 
     @Override
-    public void solicitarAmistad(String user, String amigo) throws RemoteException {
-        FachadaBaseDatos.getInstance().anhadirSolicitudAmistad(user, amigo);
-        if(usuarios.containsKey(amigo)){
-            usuarios.get(amigo).nuevaSolicitud(user);
+    public boolean solicitarAmistad(String user, String amigo) throws RemoteException {
+        
+        boolean solicitudRealizada = false;
+        
+        if(FachadaBaseDatos.getInstance().obtenerUsuarios().contains(amigo)){
+            if(!FachadaBaseDatos.getInstance().obtenerAmigos(user).contains(amigo)){
+                if(!FachadaBaseDatos.getInstance().obtenerSolicitudesEnviadas(user).contains(amigo)){
+                    FachadaBaseDatos.getInstance().anhadirSolicitudAmistad(user, amigo);
+                    if(usuarios.containsKey(amigo)){
+                        usuarios.get(amigo).nuevaSolicitud(user);
+                    }
+                    solicitudRealizada = true;
+                }
+            }
         }
         
+        return solicitudRealizada;
     }
 
     @Override

@@ -320,17 +320,25 @@ public class Cliente extends javax.swing.JFrame {
     private void solicitarAmistadBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_solicitarAmistadBotonActionPerformed
 
         try {
-            h.solicitarAmistad(nombre, solicitudBuscador.getText());
-            anhadirFila(solicitudBuscador.getText(), enviadasTabla);
-            solicitudBuscador.setText("");
-            
-            java.awt.EventQueue.invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    String mensaje = "La solicitud se ha enviado con exito. A la espera de confirmación por el usuario";
-                    javax.swing.JOptionPane.showMessageDialog(null, mensaje, "INFORMACIÓN", javax.swing.JOptionPane.INFORMATION_MESSAGE);
-                }
-            });
+            if(!nombre.equals(solicitudBuscador.getText()) && h.solicitarAmistad(nombre, solicitudBuscador.getText())){
+                anhadirFila(solicitudBuscador.getText(), enviadasTabla);
+                solicitudBuscador.setText("");
+
+                java.awt.EventQueue.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        String mensaje = "La solicitud se ha enviado con exito. A la espera de confirmación por el usuario";
+                        javax.swing.JOptionPane.showMessageDialog(null, mensaje, "INFORMACIÓN", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                    }
+                });
+            } else {
+                java.awt.EventQueue.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        javax.swing.JOptionPane.showMessageDialog(null, "El usuario no existe, ya es amigo o la solicitud ya a sido enviada", "ERROR", javax.swing.JOptionPane.ERROR_MESSAGE);
+                    }
+                }); 
+            }
         } catch (RemoteException ex) {
             java.awt.EventQueue.invokeLater(new Runnable() {
                 @Override
