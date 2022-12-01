@@ -115,8 +115,8 @@ public class ServerInterImpl extends UnicastRemoteObject implements ServerInter{
     }
 
     @Override
-    public void crearUsuario(String user, String pwd) throws RemoteException {
-        FachadaBaseDatos.getInstance().crearUsuario(user,pwd);
+    public boolean crearUsuario(String user, String pwd) throws RemoteException {
+        return FachadaBaseDatos.getInstance().crearUsuario(user,pwd);
     }
     
     

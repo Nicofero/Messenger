@@ -59,6 +59,9 @@ local.properties
 # Typically, this file would be tracked if it contains build/dependency configurations:
 #.project
 /P5/build/
-P5/nbproject/private/
+P5/nbproject/private/private.properties
+P5/nbproject/private/private.xml
+P5/nbproject/private/private.properties
+P5/nbproject/private/config.properties
 P5/baseDatos.properties
 P5/dist/

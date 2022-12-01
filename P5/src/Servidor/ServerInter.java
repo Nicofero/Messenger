@@ -26,6 +26,6 @@ public interface ServerInter extends Remote{
     public List<String> obtenerAmigos(String user) throws RemoteException;
     public List<String> obtenerSolicitudesRecibidas(String user) throws RemoteException;
     public List<String> obtenerSolicitudesEnviadas(String user) throws RemoteException;
-    public void crearUsuario(String user,String pwd) throws RemoteException;
+    public boolean crearUsuario(String user,String pwd) throws RemoteException;
         
 }

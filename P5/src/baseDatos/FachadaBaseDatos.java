@@ -91,8 +91,8 @@ public class FachadaBaseDatos {
         daoUsuarios.borrarSolicitud(usuario, amigo);
     }
 
-    public void crearUsuario(String user, String pwd) {
-        daoUsuarios.crearUsuario(user,pwd);
+    public boolean crearUsuario(String user, String pwd) {
+        return daoUsuarios.crearUsuario(user,pwd);
     }
     
 

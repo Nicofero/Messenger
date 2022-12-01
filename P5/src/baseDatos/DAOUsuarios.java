@@ -278,13 +278,14 @@ public class DAOUsuarios extends AbstractDAO {
         }
     }
 
-    void crearUsuario(String user, String pwd) {
+    public boolean crearUsuario(String user, String pwd) {
         
         PreparedStatement stmCheck = null;
         PreparedStatement stmIns = null;
         Connection con;
         String consulta;
-
+        boolean cosa = false;
+        
         con = this.getConexion();
 
         try {
@@ -294,7 +295,7 @@ public class DAOUsuarios extends AbstractDAO {
             stmIns.setString(2, pwd);
             stmIns.executeUpdate();
             
-            
+            cosa = true;
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -307,5 +308,6 @@ public class DAOUsuarios extends AbstractDAO {
                 System.out.println("Imposible cerrar cursores");
             }
         }
+        return cosa;
     }
 }
