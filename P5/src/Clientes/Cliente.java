@@ -70,8 +70,9 @@ public class Cliente extends javax.swing.JFrame {
         this.amigos = amigos;
     }
 
-    public static void setClave(String clave) {
-        Cliente.clave = clave;
+    public void setClave(String clave) {
+        System.out.println(clave);
+        this.clave = clave;
     }
     
     

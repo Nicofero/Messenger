@@ -7,8 +7,6 @@ package Clientes;
 
 import Servidor.ServerInter;
 import java.rmi.RemoteException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -27,6 +25,8 @@ public class NuevoUsuario extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         this.h = h;
+        this.setTitle("Creacion usuario");
+        jLabel3.setVisible(false);
     }
 
     /**
@@ -43,6 +43,7 @@ public class NuevoUsuario extends javax.swing.JDialog {
         jTextField1 = new javax.swing.JTextField();
         pwd = new javax.swing.JPasswordField();
         jButton1 = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -57,21 +58,25 @@ public class NuevoUsuario extends javax.swing.JDialog {
             }
         });
 
+        jLabel3.setForeground(new java.awt.Color(255, 51, 0));
+        jLabel3.setText("ERROR AL CREAR EL USUARIO");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(14, 14, 14)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(150, 150, 150)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
                         .addComponent(jButton1))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
                             .addComponent(jLabel1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(pwd, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
                             .addComponent(jTextField1))))
@@ -89,7 +94,9 @@ public class NuevoUsuario extends javax.swing.JDialog {
                     .addComponent(jLabel1)
                     .addComponent(pwd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
-                .addComponent(jButton1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jLabel3))
                 .addContainerGap())
         );
 
@@ -98,13 +105,16 @@ public class NuevoUsuario extends javax.swing.JDialog {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
-            h.crearUsuario(jTextField1.getText(),new String(pwd.getPassword()));
+            boolean a = h.crearUsuario(jTextField1.getText(),new String(pwd.getPassword()));
+            if (a){
+                this.dispose();
+            }else{
+                jLabel3.setVisible(false);
+                jLabel3.setVisible(true);
+            }
         } catch (RemoteException ex) {
-            java.awt.EventQueue.invokeLater(new Runnable() {
-                public void run() {
-                    javax.swing.JOptionPane.showMessageDialog(null, ex,"ERROR", javax.swing.JOptionPane.ERROR_MESSAGE);
-                }
-            });
+            jLabel3.setVisible(false);
+            jLabel3.setVisible(true);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -113,6 +123,7 @@ public class NuevoUsuario extends javax.swing.JDialog {
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JPasswordField pwd;
     // End of variables declaration//GEN-END:variables
