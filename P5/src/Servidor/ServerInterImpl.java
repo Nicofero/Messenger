@@ -77,7 +77,9 @@ public class ServerInterImpl extends UnicastRemoteObject implements ServerInter{
     public void aceptarSolicitud(String user, String amigo) throws RemoteException {
         FachadaBaseDatos.getInstance().aceptarSolicitud(user, amigo);
         if(usuarios.containsKey(amigo)){
-            usuarios.get(amigo).solicitudAceptada(user);
+            usuarios.get(user).solicitudAceptada(amigo);
+            usuarios.get(amigo).notifica(user, usuarios.get(user));
+            usuarios.get(user).notifica(amigo, usuarios.get(amigo));
         }
     }
     

@@ -322,6 +322,7 @@ public class Cliente extends javax.swing.JFrame {
         try {
             h.solicitarAmistad(nombre, solicitudBuscador.getText());
             anhadirFila(solicitudBuscador.getText(), enviadasTabla);
+            solicitudBuscador.setText("");
             
             java.awt.EventQueue.invokeLater(new Runnable() {
                 @Override
