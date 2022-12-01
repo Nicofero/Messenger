@@ -277,4 +277,35 @@ public class DAOUsuarios extends AbstractDAO {
             }
         }
     }
+
+    void crearUsuario(String user, String pwd) {
+        
+        PreparedStatement stmCheck = null;
+        PreparedStatement stmIns = null;
+        Connection con;
+        String consulta;
+
+        con = this.getConexion();
+
+        try {
+            consulta = "Insert into usuario (nombre_usuario, clave) values (?, crypt(?, gen_salt('bf', 4)));";
+            stmIns = con.prepareStatement(consulta);
+            stmIns.setString(1, user);
+            stmIns.setString(2, pwd);
+            stmIns.executeUpdate();
+            
+            
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (stmIns != null) {
+                    stmIns.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Imposible cerrar cursores");
+            }
+        }
+    }
 }

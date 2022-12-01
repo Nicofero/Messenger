@@ -90,6 +90,10 @@ public class FachadaBaseDatos {
     public void borrarSolicitud(String usuario, String amigo){
         daoUsuarios.borrarSolicitud(usuario, amigo);
     }
+
+    public void crearUsuario(String user, String pwd) {
+        daoUsuarios.crearUsuario(user,pwd);
+    }
     
 
 }

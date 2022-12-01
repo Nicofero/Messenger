@@ -113,6 +113,11 @@ public class ServerInterImpl extends UnicastRemoteObject implements ServerInter{
     public List<String> obtenerSolicitudesRecibidas(String user) throws RemoteException{
         return FachadaBaseDatos.getInstance().obtenerSolicitudesRecibidas(user);
     }
+
+    @Override
+    public void crearUsuario(String user, String pwd) throws RemoteException {
+        FachadaBaseDatos.getInstance().crearUsuario(user,pwd);
+    }
     
     
 

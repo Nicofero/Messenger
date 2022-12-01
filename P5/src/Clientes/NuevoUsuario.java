@@ -5,45 +5,28 @@
  */
 package Clientes;
 
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import Servidor.ServerInter;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JDialog;
 
 /**
  *
  * @author Nicolás Fernández
  */
-public class Registro extends javax.swing.JDialog {
+public class NuevoUsuario extends javax.swing.JDialog {
 
-    private Servidor.ServerInter h;
-    private Cliente cliente;
-    private ClientInter callback;
+    private final ServerInter h;
     /**
-     * Creates new form Prueba
+     * Creates new form NuevoUsuario
      * @param parent
      * @param modal
      * @param h
-     * @param c
      */
-    public Registro(java.awt.Frame parent, boolean modal, Servidor.ServerInter h,Cliente c,ClientInter clt) {
+    public NuevoUsuario(java.awt.Frame parent, boolean modal,ServerInter h) {
         super(parent, modal);
         initComponents();
         this.h = h;
-        this.cliente = c;
-        error.setVisible(false);
-        this.setTitle("Registro");
-        this.callback = clt;
-        this.addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                c.dispose();
-            }
-        });
     }
 
     /**
@@ -55,34 +38,22 @@ public class Registro extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        error = new javax.swing.JLabel();
         pwd = new javax.swing.JPasswordField();
-        jButton2 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jLabel2.setText("Nombre de usuario");
-
         jLabel1.setText("Contraseña");
 
-        jButton1.setText("Entrar");
+        jLabel2.setText("Nombre de usuario");
+
+        jButton1.setText("CREAR");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
-            }
-        });
-
-        error.setForeground(new java.awt.Color(255, 51, 51));
-        error.setText("ERROR EN EL REGISTRO");
-
-        jButton2.setText("Nuevo");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
             }
         });
 
@@ -91,28 +62,25 @@ public class Registro extends javax.swing.JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(error)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
-                        .addComponent(jButton2)
-                        .addGap(18, 18, 18)
+                        .addGap(150, 150, 150)
                         .addComponent(jButton1))
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(14, 14, 14)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
                             .addComponent(jLabel1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField1)
-                            .addComponent(pwd))))
-                .addContainerGap())
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(pwd, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
+                            .addComponent(jTextField1))))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(23, 23, 23)
+                .addContainerGap(29, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -120,11 +88,8 @@ public class Registro extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(pwd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(error)
-                    .addComponent(jButton2))
+                .addGap(26, 26, 26)
+                .addComponent(jButton1)
                 .addContainerGap())
         );
 
@@ -132,20 +97,9 @@ public class Registro extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        HashMap a;
-        error.setVisible(false);
         try {
-            a=h.registro(jTextField1.getText(),new String(pwd.getPassword()),callback);
-            if (a!=null){
-                cliente.setAmigos(a);
-                cliente.setNombre(jTextField1.getText());
-                cliente.iniciarTablas();
-                this.dispose();
-            }else{
-                error.setVisible(true);
-            }
-            
-        } catch (Exception ex) {
+            h.crearUsuario(jTextField1.getText(),new String(pwd.getPassword()));
+        } catch (RemoteException ex) {
             java.awt.EventQueue.invokeLater(new Runnable() {
                 public void run() {
                     javax.swing.JOptionPane.showMessageDialog(null, ex,"ERROR", javax.swing.JOptionPane.ERROR_MESSAGE);
@@ -154,15 +108,9 @@ public class Registro extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        new NuevoUsuario(cliente, true, h).setVisible(true);
-    }//GEN-LAST:event_jButton2ActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel error;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JTextField jTextField1;
