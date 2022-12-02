@@ -9,14 +9,16 @@ public class Registro extends javax.swing.JDialog {
     private Servidor.ServerInter h;
     private Cliente cliente;
     private ClientInter callback;
+
     /**
      * Creates new form Registro
+     *
      * @param parent
      * @param modal
      * @param h
      * @param c
      */
-    public Registro(java.awt.Frame parent, boolean modal, Servidor.ServerInter h,Cliente c,ClientInter clt) {
+    public Registro(java.awt.Frame parent, boolean modal, Servidor.ServerInter h, Cliente c, ClientInter clt) {
         super(parent, modal);
         initComponents();
         this.h = h;
@@ -120,21 +122,21 @@ public class Registro extends javax.swing.JDialog {
         HashMap a;
         error.setVisible(false);
         try {
-            a=h.registro(jTextField1.getText(),new String(pwd.getPassword()),callback);
-            if (a!=null){
+            a = h.registro(jTextField1.getText(), new String(pwd.getPassword()), callback);
+            if (a != null) {
                 cliente.setAmigos(a);
                 cliente.setNombre(jTextField1.getText());
                 cliente.setClave(new String(pwd.getPassword()));
                 cliente.iniciarTablas();
                 this.dispose();
-            }else{
+            } else {
                 error.setVisible(true);
             }
-            
+
         } catch (Exception ex) {
             java.awt.EventQueue.invokeLater(new Runnable() {
                 public void run() {
-                    javax.swing.JOptionPane.showMessageDialog(null, ex,"ERROR", javax.swing.JOptionPane.ERROR_MESSAGE);
+                    javax.swing.JOptionPane.showMessageDialog(null, ex, "ERROR", javax.swing.JOptionPane.ERROR_MESSAGE);
                 }
             });
         }

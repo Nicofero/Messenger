@@ -6,13 +6,15 @@ import java.rmi.RemoteException;
 public class NuevoUsuario extends javax.swing.JDialog {
 
     private final ServerInter h;
+
     /**
      * Creates new form NuevoUsuario
+     *
      * @param parent
      * @param modal
      * @param h
      */
-    public NuevoUsuario(java.awt.Frame parent, boolean modal,ServerInter h) {
+    public NuevoUsuario(java.awt.Frame parent, boolean modal, ServerInter h) {
         super(parent, modal);
         initComponents();
         this.h = h;
@@ -97,10 +99,10 @@ public class NuevoUsuario extends javax.swing.JDialog {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
-            boolean a = h.crearUsuario(jTextField1.getText(),new String(pwd.getPassword()));
-            if (a){
+            boolean a = h.crearUsuario(jTextField1.getText(), new String(pwd.getPassword()));
+            if (a) {
                 this.dispose();
-            }else{
+            } else {
                 jLabel3.setVisible(true);
             }
         } catch (RemoteException ex) {

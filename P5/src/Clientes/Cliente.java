@@ -35,7 +35,7 @@ public class Cliente extends javax.swing.JFrame {
             System.out.println("Error: " + e);
             System.exit(1);
         }
-        
+
         this.addWindowListener(new WindowAdapter() {
             public void windowClosed(WindowEvent e) {
                 System.exit(0);
@@ -64,8 +64,6 @@ public class Cliente extends javax.swing.JFrame {
     public void setClave(String clave) {
         this.clave = clave;
     }
-    
-    
 
     /*
      * This method is called from within the constructor to initialize the form.
@@ -292,7 +290,7 @@ public class Cliente extends javax.swing.JFrame {
     private void solicitarAmistadBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_solicitarAmistadBotonActionPerformed
 
         try {
-            if(!nombre.equals(solicitudBuscador.getText()) && h.solicitarAmistad(nombre, solicitudBuscador.getText(), clave)){
+            if (!nombre.equals(solicitudBuscador.getText()) && h.solicitarAmistad(nombre, solicitudBuscador.getText(), clave)) {
                 anhadirFila(solicitudBuscador.getText(), enviadasTabla);
                 solicitudBuscador.setText("");
 
@@ -309,7 +307,7 @@ public class Cliente extends javax.swing.JFrame {
                     public void run() {
                         javax.swing.JOptionPane.showMessageDialog(null, "El usuario no existe, ya es amigo o la solicitud ya a sido enviada", "ERROR", javax.swing.JOptionPane.ERROR_MESSAGE);
                     }
-                }); 
+                });
             }
         } catch (RemoteException ex) {
             java.awt.EventQueue.invokeLater(new Runnable() {
@@ -324,12 +322,12 @@ public class Cliente extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         DefaultTableModel tm = (DefaultTableModel) enviadasTabla.getModel();
         int fila = enviadasTabla.getSelectedRow();
-        String dato=String.valueOf(tm.getValueAt(fila,0));
+        String dato = String.valueOf(tm.getValueAt(fila, 0));
         try {
             h.borrarSolicitudEnviada(nombre, dato, clave);
             tm.removeRow(fila);
             solicitudesTabla.setModel(tm);
-            
+
         } catch (RemoteException ex) {
             java.awt.EventQueue.invokeLater(new Runnable() {
                 @Override
@@ -343,13 +341,13 @@ public class Cliente extends javax.swing.JFrame {
     private void aceptarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aceptarBotonActionPerformed
         DefaultTableModel tm = (DefaultTableModel) solicitudesTabla.getModel();
         int fila = solicitudesTabla.getSelectedRow();
-        String dato=String.valueOf(tm.getValueAt(fila,0));
+        String dato = String.valueOf(tm.getValueAt(fila, 0));
         try {
             h.aceptarSolicitud(dato, nombre, clave);
             tm.removeRow(fila);
             solicitudesTabla.setModel(tm);
             anhadirFilaAmigos(dato);
-            
+
         } catch (RemoteException ex) {
             java.awt.EventQueue.invokeLater(new Runnable() {
                 @Override
@@ -363,7 +361,7 @@ public class Cliente extends javax.swing.JFrame {
     private void rechazarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rechazarBotonActionPerformed
         DefaultTableModel tm = (DefaultTableModel) solicitudesTabla.getModel();
         int fila = solicitudesTabla.getSelectedRow();
-        String dato=String.valueOf(tm.getValueAt(fila,0));
+        String dato = String.valueOf(tm.getValueAt(fila, 0));
         try {
             h.rechazarSolicitud(dato, nombre, clave);
             tm.removeRow(fila);
@@ -454,45 +452,43 @@ public class Cliente extends javax.swing.JFrame {
         this.nombre = nombre;
     }
 
-    public void eliminarFilaEnviadas(String nombre){
+    public void eliminarFilaEnviadas(String nombre) {
         DefaultTableModel modelo = (DefaultTableModel) enviadasTabla.getModel();
-        for(int i = 0; i<modelo.getRowCount();i++){
-            if(modelo.getValueAt(i, 0).equals(nombre)){
+        for (int i = 0; i < modelo.getRowCount(); i++) {
+            if (modelo.getValueAt(i, 0).equals(nombre)) {
                 modelo.removeRow(i);
                 break;
             }
         }
-        
 
         enviadasTabla.setModel(modelo);
     }
-    
-    public void eliminarFilaRecibidas(String nombre){
+
+    public void eliminarFilaRecibidas(String nombre) {
         DefaultTableModel modelo = (DefaultTableModel) solicitudesTabla.getModel();
-        for(int i = 0; i<modelo.getRowCount();i++){
-            if(modelo.getValueAt(i, 0).equals(nombre)){
+        for (int i = 0; i < modelo.getRowCount(); i++) {
+            if (modelo.getValueAt(i, 0).equals(nombre)) {
                 modelo.removeRow(i);
                 break;
             }
         }
-        
 
         solicitudesTabla.setModel(modelo);
     }
-    
-    public void anhadirFilaAmigos(String nombre){
+
+    public void anhadirFilaAmigos(String nombre) {
         anhadirFila(nombre, amigosTabla);
     }
-    
-    public void anhadirFilaRecibidas(String nombre){
+
+    public void anhadirFilaRecibidas(String nombre) {
         anhadirFila(nombre, solicitudesTabla);
     }
-    
-    public void anhadirFilaEnviadas(String nombre){
+
+    public void anhadirFilaEnviadas(String nombre) {
         anhadirFila(nombre, enviadasTabla);
     }
-    
-    private void anhadirFila(String nombre, JTable tabla){
+
+    private void anhadirFila(String nombre, JTable tabla) {
         Object[] fila = new Object[1];
 
         fila[0] = (Object) nombre;
@@ -502,8 +498,7 @@ public class Cliente extends javax.swing.JFrame {
 
         tabla.setModel(modelo);
     }
-    
-    
+
     public void abrirChat(String user, ClientInter clt) {
         int cnt = chat.getTabCount();
         for (int i = 0; i < cnt; i++) {
@@ -519,26 +514,26 @@ public class Cliente extends javax.swing.JFrame {
     void eliminarChat(String user) {
         chat.remove(chat.indexOfTab(user));
     }
-    
-    public void iniciarTablas(){
+
+    public void iniciarTablas() {
         try {
             ArrayList<String> temp = (ArrayList) h.obtenerAmigos(nombre, clave);
-            for(String amigo : temp){
+            for (String amigo : temp) {
                 anhadirFilaAmigos(amigo);
             }
-            
+
             temp = (ArrayList) h.obtenerSolicitudesEnviadas(nombre, clave);
-            
-            for(String amigo : temp){
+
+            for (String amigo : temp) {
                 anhadirFilaEnviadas(amigo);
             }
-            
+
             temp = (ArrayList) h.obtenerSolicitudesRecibidas(nombre, clave);
-            
-            for(String amigo : temp){
+
+            for (String amigo : temp) {
                 anhadirFilaRecibidas(amigo);
             }
-            
+
         } catch (RemoteException ex) {
             Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         }

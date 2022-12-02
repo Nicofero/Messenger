@@ -6,19 +6,21 @@ public class Chat extends javax.swing.JPanel {
 
     private final ClientInter clt;
     private final String user;
+
     /**
      * Creates new form Prueba
+     *
      * @param clt
      * @param user
      */
-    public Chat(ClientInter clt,String user) {
+    public Chat(ClientInter clt, String user) {
         initComponents();
         this.clt = clt;
         this.user = user;
     }
-    
-    public void setText(String mensaje,String user){
-        jTextArea1.setText(jTextArea1.getText()+user+" dice:\n   "+mensaje+"\n\n");
+
+    public void setText(String mensaje, String user) {
+        jTextArea1.setText(jTextArea1.getText() + user + " dice:\n   " + mensaje + "\n\n");
     }
 
     /**
@@ -76,13 +78,13 @@ public class Chat extends javax.swing.JPanel {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
-            this.setText(jTextField1.getText(),user);
+            this.setText(jTextField1.getText(), user);
             clt.recibirMensaje(jTextField1.getText(), user);
             jTextField1.setText(null);
         } catch (RemoteException ex) {
             java.awt.EventQueue.invokeLater(new Runnable() {
                 public void run() {
-                    javax.swing.JOptionPane.showMessageDialog(null, ex,"ERROR", javax.swing.JOptionPane.ERROR_MESSAGE);
+                    javax.swing.JOptionPane.showMessageDialog(null, ex, "ERROR", javax.swing.JOptionPane.ERROR_MESSAGE);
                 }
             });
         }
