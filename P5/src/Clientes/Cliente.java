@@ -114,6 +114,12 @@ public class Cliente extends javax.swing.JFrame {
                 jTabbedPane1MouseClicked(evt);
             }
         });
+
+        chat.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                chatStateChanged(evt);
+            }
+        });
         jTabbedPane1.addTab("Chats", chat);
 
         solicitarAmistadBoton.setText("Solicitar amistad");
@@ -490,17 +496,17 @@ public class Cliente extends javax.swing.JFrame {
     }//GEN-LAST:event_rechazarBotonActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        
+
         error.setVisible(false);
         noCoinc.setVisible(false);
-        
+
         String n1 = new String(nuevaPwd.getPassword()), n2 = new String(repNuevaPwd.getPassword());
 
         if (n1.equals(n2)) {
             try {
-                if(!h.cambiarContraseña(nombre, new String(antigua.getPassword()),n1)){
+                if (!h.cambiarContraseña(nombre, new String(antigua.getPassword()), n1)) {
                     error.setVisible(true);
-                }else{
+                } else {
                     nuevaPwd.setText(null);
                     repNuevaPwd.setText(null);
                     antigua.setText(null);
@@ -514,7 +520,7 @@ public class Cliente extends javax.swing.JFrame {
                     }
                 });
             }
-        }else{
+        } else {
             noCoinc.setVisible(true);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -529,6 +535,11 @@ public class Cliente extends javax.swing.JFrame {
         // TODO add your handling code here:
         exito.setVisible(false);
     }//GEN-LAST:event_jTabbedPane1MouseClicked
+
+    private void chatStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_chatStateChanged
+        // TODO add your handling code here:
+        chat.setTitleAt(chat.getSelectedIndex(), chat.getTitleAt(chat.getSelectedIndex()).split(" ")[0].trim());
+    }//GEN-LAST:event_chatStateChanged
 
     /**
      * @param args the command line arguments
@@ -608,9 +619,23 @@ public class Cliente extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     void recibirMensaje(String mensaje, String user) {
+        int cnt = chat.getTabCount();
 
-        Chat a = (Chat) chat.getComponentAt(chat.indexOfTab(user));
-        a.setText(mensaje, user);
+        for (int i = 0; i < cnt; i++) {
+
+            if (chat.getTitleAt(i).split(" ")[0].equals(user)) {
+                Chat a = (Chat) chat.getComponentAt(i);
+                a.setText(mensaje, user);
+
+                if (chat.getSelectedIndex() != i) {
+
+                    chat.setTitleAt(i, user + " " + "⬤");
+
+                }
+                return;
+            }
+        }
+
     }
 
     public void setNombre(String nombre) {
