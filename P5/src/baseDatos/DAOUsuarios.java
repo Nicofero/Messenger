@@ -303,4 +303,35 @@ public class DAOUsuarios extends AbstractDAO {
         System.out.println(cosa);
         return cosa;
     }
+
+    public boolean cambiarContrasena(String user, String npwd,String apwd) {
+        PreparedStatement stm = null;
+        ResultSet rst;
+        Connection con;
+        boolean cosa = true;
+
+        con = this.getConexion();
+
+        String consulta = "update usuario set clave = crypt(?,gen_salt('bf', 4)) where nombre_usuario=? and clave = crypt(?,clave)";
+        try {
+            stm = con.prepareStatement(consulta);
+            stm.setString(1, npwd);
+            stm.setString(2, user);
+            stm.setString(3, apwd);
+            stm.executeUpdate();
+
+        } catch (SQLException ex) {
+            //ex.printStackTrace();
+            cosa = false;
+        } finally {
+            try {
+                if (stm != null) {
+                    stm.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println("Imposible cerrar cursores");
+            }
+        }
+        return cosa;
+    }
 }

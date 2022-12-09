@@ -93,4 +93,8 @@ public class FachadaBaseDatos {
         return daoUsuarios.crearUsuario(user, pwd);
     }
 
+    public boolean cambiarContrasena(String user, String npwd,String apwd) {
+        return daoUsuarios.cambiarContrasena (user,npwd,apwd);
+    }
+
 }

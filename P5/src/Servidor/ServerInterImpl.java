@@ -143,4 +143,12 @@ public class ServerInterImpl extends UnicastRemoteObject implements ServerInter 
         return FachadaBaseDatos.getInstance().crearUsuario(user, pwd);
     }
 
+    @Override
+    public boolean cambiarContraseña(String user, String pwd, String npwd) throws RemoteException {
+        if (FachadaBaseDatos.getInstance().iniciarSesion(user, pwd)) {
+            return FachadaBaseDatos.getInstance().cambiarContrasena(user,npwd,pwd);
+        }
+        return false;
+    }
+
 }
