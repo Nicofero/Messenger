@@ -2,6 +2,7 @@ package Clientes;
 
 import java.rmi.Naming;
 import Servidor.ServerInter;
+import java.awt.Component;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.rmi.RemoteException;
@@ -108,12 +109,6 @@ public class Cliente extends javax.swing.JFrame {
         exito = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jTabbedPane1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTabbedPane1MouseClicked(evt);
-            }
-        });
 
         chat.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -511,6 +506,7 @@ public class Cliente extends javax.swing.JFrame {
                     repNuevaPwd.setText(null);
                     antigua.setText(null);
                     exito.setVisible(true);
+                    this.setClave(n1);
                 }
             } catch (RemoteException ex) {
                 java.awt.EventQueue.invokeLater(new Runnable() {
@@ -525,20 +521,15 @@ public class Cliente extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    //ESTAS DOS FUNCIONES TAN FEAS, PERO BUENO
     private void jPanel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel5MouseClicked
         // TODO add your handling code here:
         exito.setVisible(false);
     }//GEN-LAST:event_jPanel5MouseClicked
 
-    private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
-        // TODO add your handling code here:
-        exito.setVisible(false);
-    }//GEN-LAST:event_jTabbedPane1MouseClicked
-
     private void chatStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_chatStateChanged
         // TODO add your handling code here:
-        chat.setTitleAt(chat.getSelectedIndex(), chat.getTitleAt(chat.getSelectedIndex()).split(" ")[0].trim());
+        if(chat.getTabCount()>0)
+            chat.setTitleAt(chat.getSelectedIndex(), chat.getTitleAt(chat.getSelectedIndex()).split(" ")[0].trim());
     }//GEN-LAST:event_chatStateChanged
 
     /**
@@ -632,7 +623,7 @@ public class Cliente extends javax.swing.JFrame {
                     chat.setTitleAt(i, user + " " + "⬤");
 
                 }
-                return;
+                break;
             }
         }
 
@@ -693,8 +684,8 @@ public class Cliente extends javax.swing.JFrame {
         int cnt = chat.getTabCount();
         for (int i = 0; i < cnt; i++) {
 
-            if (chat.getTitleAt(i).equals(user)) {
-                return;
+            if (chat.getTitleAt(i).split(" ")[0].equals(user)) {
+                break;
             }
         }
         Chat a = new Chat(clt, nombre);
@@ -702,7 +693,16 @@ public class Cliente extends javax.swing.JFrame {
     }
 
     void eliminarChat(String user) {
-        chat.remove(chat.indexOfTab(user));
+        int cnt = chat.getTabCount();
+
+        for (int i = 0; i < cnt; i++) {
+
+            if (chat.getTitleAt(i).split(" ")[0].equals(user)) {
+                chat.remove(i);
+                break;
+            }
+        }
+        
     }
 
     public void iniciarTablas() {
@@ -727,5 +727,14 @@ public class Cliente extends javax.swing.JFrame {
         } catch (RemoteException ex) {
             Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    void avisar(String solicitante) {
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                javax.swing.JOptionPane.showMessageDialog(null, nombre + ", has recibido una solicitud de amistad de " + solicitante, "Nueva solicitud", javax.swing.JOptionPane.DEFAULT_OPTION);
+            }
+        });
     }
 }

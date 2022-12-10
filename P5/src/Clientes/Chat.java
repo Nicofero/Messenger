@@ -1,5 +1,6 @@
 package Clientes;
 
+import java.awt.event.KeyEvent;
 import java.rmi.RemoteException;
 
 public class Chat extends javax.swing.JPanel {
@@ -42,6 +43,12 @@ public class Chat extends javax.swing.JPanel {
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
 
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextField1KeyPressed(evt);
+            }
+        });
+
         jButton1.setText("ENVIAR");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -72,7 +79,7 @@ public class Chat extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1))
-                .addContainerGap(7, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -89,6 +96,13 @@ public class Chat extends javax.swing.JPanel {
             });
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTextField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER){
+            jButton1.doClick();
+        }
+    }//GEN-LAST:event_jTextField1KeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

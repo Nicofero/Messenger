@@ -36,6 +36,7 @@ public class ClientInterImpl extends UnicastRemoteObject implements ClientInter 
     @Override
     public void nuevaSolicitud(String solicitante) throws RemoteException {
         cl.anhadirFilaRecibidas(solicitante);
+        cl.avisar(solicitante);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package Clientes;
 
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.HashMap;
@@ -65,6 +66,12 @@ public class Registro extends javax.swing.JDialog {
 
         error.setForeground(new java.awt.Color(255, 51, 51));
         error.setText("ERROR EN EL REGISTRO");
+
+        pwd.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                pwdKeyPressed(evt);
+            }
+        });
 
         jButton2.setText("Nuevo");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -145,6 +152,13 @@ public class Registro extends javax.swing.JDialog {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         new NuevoUsuario(cliente, true, h).setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void pwdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_pwdKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER){
+            jButton1.doClick();
+        }
+    }//GEN-LAST:event_pwdKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

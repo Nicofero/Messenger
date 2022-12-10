@@ -1,6 +1,7 @@
 package Clientes;
 
 import Servidor.ServerInter;
+import java.awt.event.KeyEvent;
 import java.rmi.RemoteException;
 
 public class NuevoUsuario extends javax.swing.JDialog {
@@ -43,6 +44,12 @@ public class NuevoUsuario extends javax.swing.JDialog {
         jLabel1.setText("Contraseña");
 
         jLabel2.setText("Nombre de usuario");
+
+        pwd.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                pwdKeyPressed(evt);
+            }
+        });
 
         jButton1.setText("Crear");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -109,6 +116,13 @@ public class NuevoUsuario extends javax.swing.JDialog {
             jLabel3.setVisible(true);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void pwdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_pwdKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER){
+            jButton1.doClick();
+        }
+    }//GEN-LAST:event_pwdKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
