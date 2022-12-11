@@ -475,9 +475,9 @@ public class Cliente extends javax.swing.JFrame {
     private void rechazarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rechazarBotonActionPerformed
         DefaultTableModel tm = (DefaultTableModel) solicitudesTabla.getModel();
         int fila = solicitudesTabla.getSelectedRow();
-        String dato = String.valueOf(tm.getValueAt(fila, 0));
+        String elRechazado = String.valueOf(tm.getValueAt(fila, 0));
         try {
-            h.rechazarSolicitud(dato, nombre, clave);
+            h.rechazarSolicitud(nombre, elRechazado, clave);
             tm.removeRow(fila);
             solicitudesTabla.setModel(tm);
         } catch (RemoteException ex) {
@@ -528,7 +528,7 @@ public class Cliente extends javax.swing.JFrame {
 
     private void chatStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_chatStateChanged
         // TODO add your handling code here:
-        if(chat.getTabCount()>0)
+        if (chat.getTabCount() > 0)
             chat.setTitleAt(chat.getSelectedIndex(), chat.getTitleAt(chat.getSelectedIndex()).split(" ")[0].trim());
     }//GEN-LAST:event_chatStateChanged
 
@@ -702,7 +702,7 @@ public class Cliente extends javax.swing.JFrame {
                 break;
             }
         }
-        
+
     }
 
     public void iniciarTablas() {
@@ -729,12 +729,28 @@ public class Cliente extends javax.swing.JFrame {
         }
     }
 
-    void avisar(String solicitante) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                javax.swing.JOptionPane.showMessageDialog(null, nombre + ", has recibido una solicitud de amistad de " + solicitante, "Nueva solicitud", javax.swing.JOptionPane.DEFAULT_OPTION);
-            }
-        });
+    void avisar(String solicitante, int a) {
+        if (a==1) {
+            java.awt.EventQueue.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    javax.swing.JOptionPane.showMessageDialog(null, nombre + ", has recibido una solicitud de amistad de " + solicitante, "Nueva solicitud", javax.swing.JOptionPane.DEFAULT_OPTION);
+                }
+            });
+        } else if (a==2) {
+            java.awt.EventQueue.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    javax.swing.JOptionPane.showMessageDialog(null, nombre + ", "+solicitante+" ha aceptado tu solicitud de amistad", "Solicitud aceptada", javax.swing.JOptionPane.DEFAULT_OPTION);
+                }
+            });
+        } else if (a==3){
+            java.awt.EventQueue.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    javax.swing.JOptionPane.showMessageDialog(null, nombre + ", "+solicitante+" ha rechazado tu solicitud de amistad", "Solicitud rechazada", javax.swing.JOptionPane.DEFAULT_OPTION);
+                }
+            });
+        }
     }
 }

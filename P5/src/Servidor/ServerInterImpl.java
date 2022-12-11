@@ -103,11 +103,11 @@ public class ServerInterImpl extends UnicastRemoteObject implements ServerInter 
     }
 
     @Override
-    public void rechazarSolicitud(String user, String amigo, String clave) throws RemoteException {
-        if (FachadaBaseDatos.getInstance().iniciarSesion(user, clave)) {
-            FachadaBaseDatos.getInstance().borrarSolicitud(user, amigo);
-            if (usuarios.containsKey(user)) {
-                usuarios.get(user).rechazarSolicitud(amigo);
+    public void rechazarSolicitud(String elQueRechaza, String elRechazado, String clave) throws RemoteException {
+        if (FachadaBaseDatos.getInstance().iniciarSesion(elQueRechaza, clave)) {
+            FachadaBaseDatos.getInstance().borrarSolicitud(elRechazado, elQueRechaza);
+            if (usuarios.containsKey(elRechazado)) {
+                usuarios.get(elRechazado).rechazarSolicitud(elQueRechaza);
             }
         }
     }
