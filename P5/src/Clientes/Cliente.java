@@ -620,7 +620,7 @@ public class Cliente extends javax.swing.JFrame {
 
                 if (chat.getSelectedIndex() != i) {
 
-                    chat.setTitleAt(i, user + " " + "⬤");
+                    chat.setTitleAt(i, user + " " + "\u2022");
 
                 }
                 break;
